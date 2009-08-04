@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.files = (['lib', 'rails', 'tasks', 'generators/railsgame'].map {|d|
       Dir[d + '/*.rb']
     }).sum
+  s.files << ["init.rb", "install.rb", "uninstall.rb", "README", "Rakefile"]
   s.test_files = Dir['test/*.rb']
   s.has_rdoc = true
   s.homepage = %q{http://railsgame.angelbob.com}
