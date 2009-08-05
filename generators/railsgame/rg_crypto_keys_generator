@@ -1,4 +1,4 @@
-class CryptoKeysGenerator < Rails::Generator::NamedBase
+class RgCryptoKeysGenerator < Rails::Generator::NamedBase
   def manifest
     record do |m|
       # m.directory "lib"
