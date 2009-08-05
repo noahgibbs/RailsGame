@@ -1,8 +1,13 @@
 Description:
-    Explain the generator
+    This creates the file of cryptographic keys for RailsGame.  Normally
+    it gets invoked automatically by run_server.sh, but you could regenerate
+    the keys manually if you wanted.  Regenerating the keys will invalidate
+    all current connections and sessions, including the game server, so you
+    should shut everything down first.  Users with web browsers will have to
+    log in again.
 
 Example:
-    ./script/generate railsgame Thing
+    ./script/generate rg_crypto_keys [unused name]
 
     This will create:
-        what/will/it/create
+        crypto_keys.sh
