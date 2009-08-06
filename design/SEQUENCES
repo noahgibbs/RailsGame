@@ -13,3 +13,15 @@ Browser-Initiated Logout process:
   Browser disconnects
   Juggernaut sees disconnection, sends logout message to site
   Site sends logout message to game server
+
+Browser Action process:
+  Browser receives input from user
+  Browser sends "action" message to Juggernaut
+  Juggernaut relays action message to game server
+  Game server receives action message, sends back response, if any
+  Browser receives response, executes JavaScript
+
+Game Server action process:
+  Game server sends message to Juggernaut
+  Juggernaut relays message to browser
+  Browser receives message, executes JavaScript
