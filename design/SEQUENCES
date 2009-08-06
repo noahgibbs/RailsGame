@@ -1,0 +1,15 @@
+Login process:
+  Browser connects to site
+  Browser logs in to site (optional?)
+  Browser goes to RG-enabled page
+  Browser sends Juggernaut connection request
+  Juggernaut receives request, sends login query to site
+  Site sends query approval back to Juggernaut, and simultaneously,
+  Site broadcasts login event to game server
+  Juggernaut sends "you're connected" message to browser
+  Game server sends initial login messages to browser (optional)
+
+Browser-Initiated Logout process:
+  Browser disconnects
+  Juggernaut sees disconnection, sends logout message to site
+  Site sends logout message to game server
