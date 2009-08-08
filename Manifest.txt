@@ -10,6 +10,11 @@ generators/rg_crypto_keys/templates/crypto_keys.sh
 init.rb
 install.rb
 lib/railsgame.rb
+lib/railsgame/command_parser.rb
+lib/railsgame/juggernaut_connect.rb
+lib/railsgame/location.rb
+lib/railsgame/player.rb
+lib/railsgame/player_action.rb
 rails/init.rb
 script/console
 script/destroy
