@@ -7,8 +7,16 @@ require "activesupport"
 
 module RailsGame::JuggernautConnect
   #CONFIG = YAML::load(ERB.new(IO.read("#{File.dirname(__FILE__)}/../../config/juggernaut_hosts.yml")).result).freeze
-  CONFIG = YAML::load(ERB.new(IO.read("/home/angelbob/rails/RailsMUD/config/juggernaut_hosts.yml")).result).freeze
+  #CONFIG = YAML::load(ERB.new(IO.read("/home/angelbob/rails/RailsMUD/config/juggernaut_hosts.yml")).result).freeze
   CR = "\0"
+
+  def self.config_file(filename)
+    @@config = YAML::load(ERB.new(IO.read(filename)).result).freeze
+  end
+
+  def self.check_config
+    raise "No configuration has been set for JuggernautConnect!" unless @@config
+  end
 
   def self.connect
     @sockets.nil? || @sockets.empty? or raise "Already connected to Juggernaut"
@@ -94,7 +102,8 @@ module RailsGame::JuggernautConnect
 
   # Code for outgoing data is taken from the Juggernaut Rails plugin.
   def self.hosts
-    CONFIG[:hosts].select {|h|
+    check_config
+    @@config[:hosts].select {|h|
       !h[:environment] or h[:environment].to_s == ENV['RM_RAILS_ENVIRONMENT']
     }
   end
