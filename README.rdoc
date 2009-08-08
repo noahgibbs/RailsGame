@@ -1,0 +1,32 @@
+= railsgame
+
+* http://railsgame.angelbob.com
+
+== DESCRIPTION:
+
+RailsGame attaches a Rails server to a two-way persistent game
+server.
+
+== FEATURES/PROBLEMS:
+
+RailsGame uses Juggernaut to reduce AJAX polling.  It makes two-way realtime
+chat easy.  It makes adding a webclient to a MUD very straightforward.
+
+== SYNOPSIS:
+
+(To be added)
+
+== REQUIREMENTS:
+
+Juggernaut, Rails
+
+== INSTALL:
+
+sudo gem install railsgame
+
+You'll need to find or build an example app with railsgame -- by itself, it
+doesn't do much.
+
+== LICENSE:
+
+Released into the Public Domain, 2009, by Noah Gibbs
