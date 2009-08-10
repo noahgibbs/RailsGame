@@ -15,7 +15,7 @@ $hoe = Hoe.spec 'railsgame' do
   self.post_install_message = 'PostInstall.txt'
   self.rubyforge_name       = self.name
   self.extra_deps         = [['rails','>= 2.3.2'],
-                             ['juggernaut', '>= 0.5.7'],
+                             ['maccman-juggernaut', '>= 0.5.9'],
                              ['daemons', '>= 1.0.10'],
                             ]
 
