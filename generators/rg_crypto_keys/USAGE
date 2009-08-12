@@ -7,7 +7,7 @@ Description:
     log in again.
 
 Example:
-    ./script/generate rg_crypto_keys [unused name]
+    ./script/generate rg_crypto_keys
 
     This will create:
         crypto_keys.sh
