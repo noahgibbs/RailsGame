@@ -16,6 +16,7 @@ lib/railsgame/location.rb
 lib/railsgame/mobile.rb
 lib/railsgame/player.rb
 lib/railsgame/player_action.rb
+lib/railsgame/server.rb
 lib/railsgame/text_output.rb
 rails/init.rb
 script/console

@@ -6,14 +6,16 @@ module RailsGame::PlayerAction
     include ERB::Util
   end
 
-  def self.received(player, verb, objects)
+  def self.received(server, player, verb, objects)
     if verb == 'login'
-      RailsGame::Player.server_login(player, objects)
+      RailsGame::Player.server_login(server, player, objects)
       return
     elsif verb == 'logout'
-      Player.server_logout(player, objects)
+      Player.server_logout(server, player, objects)
       return
     end
+
+    pobj = RailsGame::Player.by_name(player)
 
     verb, objects = CommandParser.process(player, objects) if verb == 'parse'
     objects = [objects] unless objects.kind_of? Array
@@ -21,8 +23,8 @@ module RailsGame::PlayerAction
     print "PlayerAction: #{verb} on [#{objects.join(" / ")}]\n"
 
     if verb == 'think'
-      RailsGame::Player.send_to_players("You think to yourself, \"#{h objects.join(' ')}\". <br />",
-                             [player])
+      pobj.send_html("You think to yourself, \"#{h objects.join(' ')}\". " +
+      			"<br />")
     end
   end
 end

@@ -5,20 +5,18 @@ require "socket"
 require "erb"
 require "activesupport"
 
-module RailsGame::JuggernautConnect
-  #CONFIG = YAML::load(ERB.new(IO.read("#{File.dirname(__FILE__)}/../../config/juggernaut_hosts.yml")).result).freeze
-  #CONFIG = YAML::load(ERB.new(IO.read("/home/angelbob/rails/RailsMUD/config/juggernaut_hosts.yml")).result).freeze
+class RailsGame::JuggernautConnect
   CR = "\0"
 
-  def self.config_file(filename)
-    @@config = YAML::load(ERB.new(IO.read(filename)).result).freeze
+  def config_file(filename)
+    @config = YAML::load(ERB.new(IO.read(filename)).result).freeze
   end
 
-  def self.check_config
-    raise "No configuration has been set for JuggernautConnect!" unless @@config
+  def check_config
+    raise "No hosts file has been set for Juggernaut!" unless @config
   end
 
-  def self.connect
+  def connect
     @sockets.nil? || @sockets.empty? or raise "Already connected to Juggernaut"
     handshake = { :command => :subscribe,
                   :session_id => ENV['RM_JUGGER_GS_SESSION'],
@@ -26,7 +24,7 @@ module RailsGame::JuggernautConnect
                   :channels => [ :action ]
                 }
 
-    h = self.hosts
+    h = hosts
 
     @sockets = []
     @sockbuf = h.map { "" }
@@ -43,17 +41,17 @@ module RailsGame::JuggernautConnect
     @sockets.each {|s| !s.nil?} or raise "Error opening sockets!"
   end
 
-  def self.disconnect
+  def disconnect
     @sockets.each { |s| s.close }
     @sockets = nil
     @sockbuf = nil
   end
 
-  def self.connected?
+  def connected?
     @sockets and !@sockets.empty?
   end
 
-  def self.poll
+  def poll
     res = []
     @sockets.each_index do |idx|
         s = @sockets[idx]
@@ -65,13 +63,13 @@ module RailsGame::JuggernautConnect
           # The preceding are all recoverable "try again" errors
           msg = nil
         rescue => err
-	  self.disconnect
+	  disconnect
           raise "Unfixable error [#{err}] reading from Juggernaut!"
 	end
 
 	# An empty msg string is an EOF.  Nil means EWOULDBLOCK.
         if msg == ""
-          self.disconnect
+          disconnect
           return []
         elsif msg != nil
           @sockbuf[idx] += msg
@@ -89,9 +87,6 @@ module RailsGame::JuggernautConnect
             newhash = ActiveSupport::JSON.decode(chunk)
 	  }
 
-	  print "JugCon: got #{newhashes.size} hashes.\n"
-	  print "JugCon: hashes: #{newhashes.join ' *** '} (End hashes)\n"
-
           res += newhashes
         end
 
@@ -101,18 +96,18 @@ module RailsGame::JuggernautConnect
   end
 
   # Code for outgoing data is taken from the Juggernaut Rails plugin.
-  def self.hosts
+  def hosts
     check_config
-    @@config[:hosts].select {|h|
+    @config[:hosts].select {|h|
       !h[:environment] or h[:environment].to_s == ENV['RM_RAILS_ENVIRONMENT']
     }
   end
 
-  def self.send_data(hash)
+  def send_data(hash)
     hash[:channels] = hash[:channels].to_a if hash[:channels]
     hash[:client_ids] = hash[:client_ids].to_a if hash[:client_ids]
 
-    h = self.hosts
+    h = hosts
     h.each_index do |idx|
       address = h[idx]
       socket = @sockets[idx]
@@ -126,24 +121,24 @@ module RailsGame::JuggernautConnect
     end
   end
 
-  def self.send_to_all(data)
+  def send_to_all(data)
     fc = {
       :command   => :broadcast,
       :body      => data, 
       :type      => :to_channels,
       :channels  => []
     }
-    self.send_data(fc)
+    send_data(fc)
   end
 
-  def self.send_to_clients(data, client_ids)
+  def send_to_clients(data, client_ids)
     fc = {
       :command    => :broadcast,
       :body       => data, 
       :type       => :to_clients,
       :client_ids => client_ids
     }
-    self.send_data(fc)
+    send_data(fc)
   end
 
 end

@@ -5,10 +5,16 @@ module RailsGame
   VERSION = '0.0.1'
 end
 
-require "railsgame/command_parser"
+# Connectivity, event handling
 require "railsgame/juggernaut_connect"
+require "railsgame/player_action"
+require "railsgame/server"
+require "railsgame/command_parser"
+
+# In-game objects, creatures, etc
 require "railsgame/mobile"
 require "railsgame/player"
-require "railsgame/player_action"
 require "railsgame/location"
+
+# Methods of interaction
 require "railsgame/text_output"

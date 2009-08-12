@@ -3,14 +3,13 @@ require "action_view"
 require "action_view/erb/util"
 
 class RailsGame::Player < RailsGame::Mobile
-  attr :login
+  attr_reader :login
+  attr_accessor :server
   @@players = {}
   @@playerclass = RailsGame::Player
 
-  class << self
-    include ActionView::Helpers::JavaScriptHelper # for javascript_escape
-    include ERB::Util  # for html_escape aka h
-  end
+  include ActionView::Helpers::JavaScriptHelper # for javascript_escape
+  include ERB::Util  # for html_escape aka h
 
   def self.playerClass
     @@playerclass = self
@@ -20,40 +19,61 @@ class RailsGame::Player < RailsGame::Mobile
     @login = login
   end
 
-  def self.server_login(name, objects)
-    @@playerclass.login(name, objects)
+  def self.server_login(server, name, objects)
+    options = { :login => name, :server => server }
+
+    @@playerclass.login(name, options)
+    player = self.by_name(name)
+
+    player or raise "Player doesn't exist after login!  Call super!"
   end
 
-  def self.login(name, objects)
-    p = RailsGame::Player.new(name)
+  def self.login(name, options)
+    p = @@playerclass.new(name)
     @@players[name] = p
+    p.server = options[:server]
   end
 
-  def self.server_logout(name, objects)
-    @@playerclass.logout(name, objects)
+  def self.server_logout(server, name, objects)
+    options = { :login => name, :server => server }
+
+    player = self.by_name(name)
+    raise "Player doesn't exist!  Don't log him out!" unless player
+    raise "Player logging out from wrong server!" unless player.server == server
+
+    @@playerclass.logout(name, options)
+
+    raise "Player still tracked!  Call super!" if @@players[name]
   end
 
-  def self.logout(name, objects)
-    @@players[name] = nil
+  def self.logout(name, options)
+    @@players.delete(name)
   end
 
-  def self.get_player_by_name(name)
+  def self.by_name(name)
     @@players[name]
   end
 
-  def self.send_to_players(text, players)
+  def self.send_html_to_players(text, players)
     players = [players] unless players.kind_of? Array
 
-    str = "try {\nadd_world_output(\"#{escape_javascript(text)}\");\n} catch (e) { alert('GS error:\\n\\n' + e.toString()); alert('add_world_output(\\\"\#{text}\\\");'); throw e }"
-    RailsGame::JuggernautConnect.send_to_clients(str, self.get_names_from_objs(players))
+    players.each do |p|
+      p.send_html(text)
+    end
+  end
+
+  def send_html(text)
+    str = javascript_from_html(text)
+    @server.send_to_clients(str, @login)
   end
 
   private
 
-  def self.get_names_from_objs(players)
-    players.map { |p|
-      p.kind_of?(String) ? p : p.login
-    }
+  def javascript_from_html(text)
+    "try {\nadd_world_output(\"#{escape_javascript(text)}\");\n} " +
+    "catch (e) { " +
+        "alert('GS error:\\n\\n' + e.toString()); " +
+        "alert('add_world_output(\\\"\#{text}\\\");'); throw e }"
   end
 
 end
