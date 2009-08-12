@@ -34,30 +34,31 @@ class RailsGame::Mobile
   end
 
   def perceive_text_event(event, options)
+    # For the default mobile, this is a no-op
   end
 end
 
 class RailsGame::Player
   def perceive_text(text)
-    Player.send_to_players(text, self)
+    send_html(text)
   end
 
   def perceive_text_event(event, options)
     if(options[:actor] == self && event[:actor])
-      Player.send_to_players(event[:actor], self)
+      send_html(event[:actor])
       return
     end
 
     if(options[:victim] == self && event[:victim])
-      Player.send_to_players(event[:victim], self)
+      send_html(event[:victim])
       return
     end
 
-    Player.send_to_players(event[:default], self)
+    send_html(event[:default])
   end
 end
 
-class RailsGame::Location
+module RailsGame::Location
   def show_text(text)
     @mobiles.each do |m|
       m.perceive_text(text)

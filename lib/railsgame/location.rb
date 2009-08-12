@@ -1,4 +1,4 @@
-class RailsGame::Location
+module RailsGame::Location
 
   def initialize
     @mobiles = []
@@ -10,6 +10,10 @@ class RailsGame::Location
 
   def remove_mobile(m)
     @mobiles.delete(m)
+  end
+
+  def show_to(player)
+    raise "Unimplemented!"
   end
 
 end

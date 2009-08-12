@@ -67,6 +67,14 @@ class RailsGame::Player < RailsGame::Mobile
     @server.send_to_clients(str, @login)
   end
 
+  def show_location(location)
+    send_html(location.show_to(self))
+  end
+
+  def show_current_location
+    show_location(@location)
+  end
+
   private
 
   def javascript_from_html(text)
