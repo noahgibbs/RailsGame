@@ -1,12 +1,15 @@
-
-class Location
+class RailsGame::Location
 
   def initialize
     @mobiles = []
   end
 
-  def show(text)
+  def add_mobile(m)
+    @mobiles << m
+  end
 
+  def remove_mobile(m)
+    @mobiles.delete(m)
   end
 
 end

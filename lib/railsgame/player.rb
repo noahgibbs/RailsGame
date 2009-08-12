@@ -2,7 +2,7 @@ gem "actionpack"
 require "action_view"
 require "action_view/erb/util"
 
-class RailsGame::Player
+class RailsGame::Player < RailsGame::Mobile
   attr :login
   @@players = {}
   @@playerclass = RailsGame::Player
@@ -14,7 +14,6 @@ class RailsGame::Player
 
   def self.playerClass
     @@playerclass = self
-    print "Setting player class to #{self}\n"
   end
 
   def initialize(login)

@@ -13,8 +13,10 @@ lib/railsgame.rb
 lib/railsgame/command_parser.rb
 lib/railsgame/juggernaut_connect.rb
 lib/railsgame/location.rb
+lib/railsgame/mobile.rb
 lib/railsgame/player.rb
 lib/railsgame/player_action.rb
+lib/railsgame/text_output.rb
 rails/init.rb
 script/console
 script/destroy

@@ -5,8 +5,10 @@ module RailsGame
   VERSION = '0.0.1'
 end
 
-require "railsgame/command_parser.rb"
-require "railsgame/juggernaut_connect.rb"
-require "railsgame/player.rb"
-require "railsgame/player_action.rb"
-require "railsgame/location.rb"
+require "railsgame/command_parser"
+require "railsgame/juggernaut_connect"
+require "railsgame/mobile"
+require "railsgame/player"
+require "railsgame/player_action"
+require "railsgame/location"
+require "railsgame/text_output"
