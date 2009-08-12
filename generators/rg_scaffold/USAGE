@@ -1,0 +1,9 @@
+Description:
+    This generator creates a RailsGame controller and view, including
+    connection to a Juggernaut server.  Initially this contains a
+    peer-to-peer chat window and a simple output area for the game server.
+
+Example:
+    ./script/generate rg_scaffold GameClient
+
+    This would create a GameClientController and a GameClientView.
