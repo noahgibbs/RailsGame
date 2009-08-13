@@ -28,7 +28,7 @@ module RailsGame::Text
 
 end
 
-class RailsGame::Mobile
+module RailsGame::Mobile
   def perceive_text
     # For the default mobile, this is a no-op
   end
@@ -38,7 +38,7 @@ class RailsGame::Mobile
   end
 end
 
-class RailsGame::Player
+module RailsGame::Player
   def perceive_text(text)
     send_html(text)
   end

@@ -2,17 +2,22 @@ gem "actionpack"
 require "action_view"
 require "action_view/erb/util"
 
-class RailsGame::Player < RailsGame::Mobile
+# Predeclaration
+class RailsGame::BasicPlayer; end
+
+module RailsGame::PlayerFunctions
+  include RailsGame::Mobile
+
   attr_reader :login
   attr_accessor :server
   @@players = {}
-  @@playerclass = RailsGame::Player
+  @@playerclass = RailsGame::BasicPlayer
 
   include ActionView::Helpers::JavaScriptHelper # for javascript_escape
   include ERB::Util  # for html_escape aka h
 
-  def self.playerClass
-    @@playerclass = self
+  def self.player_class(newClass)
+    @@playerclass = newClass
   end
 
   def initialize(login)
@@ -23,7 +28,7 @@ class RailsGame::Player < RailsGame::Mobile
     options = { :login => name, :server => server }
 
     @@playerclass.login(name, options)
-    player = self.by_name(name)
+    player = RailsGame::PlayerFunctions.by_name(name)
 
     player or raise "Player doesn't exist after login!  Call super!"
   end
@@ -54,14 +59,6 @@ class RailsGame::Player < RailsGame::Mobile
     @@players[name]
   end
 
-  def self.send_html_to_players(text, players)
-    players = [players] unless players.kind_of? Array
-
-    players.each do |p|
-      p.send_html(text)
-    end
-  end
-
   def send_html(text)
     str = javascript_from_html(text)
     @server.send_to_clients(str, @login)
@@ -84,4 +81,45 @@ class RailsGame::Player < RailsGame::Mobile
         "alert('add_world_output(\\\"\#{text}\\\");'); throw e }"
   end
 
+end
+
+module RailsGame::Player
+  include RailsGame::PlayerFunctions
+
+  def self.included(mod)
+    RailsGame::PlayerFunctions.player_class(mod)
+  end
+
+  def self.login(*args)
+    RailsGame::PlayerFunctions.login(*args)
+  end
+
+  def self.server_login(*args)
+    RailsGame::PlayerFunctions.server_login(*args)
+  end
+
+  def self.logout(*args)
+    RailsGame::PlayerFunctions.logout(*args)
+  end
+
+  def self.server_logout(*args)
+    RailsGame::PlayerFunctions.server_logout(*args)
+  end
+
+  def self.by_name(*args)
+    RailsGame::PlayerFunctions.by_name(*args)
+  end
+
+  def self.send_html_to_players(text, players)
+    players = [players] unless players.kind_of? Array
+
+    players.each do |p|
+      p.send_html(text)
+    end
+  end
+
+end
+
+class RailsGame::BasicPlayer
+  include RailsGame::PlayerFunctions
 end

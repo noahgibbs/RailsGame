@@ -1,4 +1,4 @@
-class RailsGame::Mobile
+module RailsGame::Mobile
   attr_reader :location
 
   def move_to(loc)
