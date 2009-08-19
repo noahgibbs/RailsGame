@@ -31,7 +31,7 @@ class RailsGame::Server < RailsGame::JuggernautConnect
         raise "Invalid JSON hash from Juggernaut!" unless rh['type']
         if rh['type'] == 'action'
           print "GameServer: Got action #{rh['verb']} from #{rh['client']}.\n"
-          RailsGame::PlayerAction::received(self, rh['client'], rh['verb'], rh['objects'])
+          raw_action_received(rh['client'], rh['verb'], rh['objects'])
         else
           print "GameServer: Can't yet process non-action JSON hashes!\n"
         end
@@ -42,6 +42,40 @@ class RailsGame::Server < RailsGame::JuggernautConnect
       raise "GameServer: Invalid object received from Juggernaut!"
     end
   end
+
+  def unknown_action(player, verb, objects)
+    player.send_html("Unknown action '#{verb}'! <br/>")
+  end
+
+  def received_action(player, verb, objects)
+    verb, objects = CommandParser.process(player, objects) if verb == 'parse'
+    objects = [objects] unless objects.kind_of? Array
+
+    fname = "action_#{verb}".to_sym
+    if respond_to? fname
+      send(fname, player, objects)
+    else
+      unknown_action(player, verb, objects)
+    end
+  end
+
+  private
+
+  def raw_action_received(player, verb, objects)
+    if verb == 'login'
+      RailsGame::Player.server_login(self, player, objects)
+      return
+    elsif verb == 'logout'
+      RailsGame::Player.server_logout(self, player, objects)
+      return
+    end
+
+    pobj = RailsGame::Player.by_name(player)
+
+    received_action(pobj, verb, objects)
+  end
+
+  public
 
   def loop_while_connected
     while(connected?) do
