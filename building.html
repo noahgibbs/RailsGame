@@ -1,0 +1,139 @@
+<html>
+<head>
+<title> Building a RailsGame </title>
+</head>
+<body>
+
+<h1> Building Your RailsGame </h1>
+
+<p>
+  From the user's perspective, the RailsGame will appear as one or
+  more web pages.  Normally you'll want to leave any RailsGame-enabled
+  page up instead of switching from one to another -- it takes time to
+  connect to the game server, and you're better off doing it once than
+  doing it repeatedly.
+</p>
+
+<p>
+  Of course, you could have additional pages or frames up and move
+  between those as usual for a Rails app.  That's up to you, and works
+  as it always does in Rails.
+</p>
+
+<p>
+  A RailsGame will consist of a number of objects.  The objects can be
+  divided into web-site-only objects, game-server-only objects, and
+  shared objects.
+</p>
+
+<h2> Objects </h2>
+
+<p>
+  Game objects like locations, enemies, player data, acquirable
+  objects...  Each of these will need to exist on the Rails server,
+  the game server, or both.  If the object only needs to show up in
+  the non-RailsGame-enabled parts of the pages, you can make it a
+  normal Rails object, usually a model.  If it only needs to show up
+  in the areas or frames that RailsGame manages, you can make it a
+  game-server-only object.  If you need it to be both, it'll have to
+  be a hybrid object, usually by connecting your game server to the
+  Rails database.
+</p>
+
+<h3> Rails-Only Objects </h3>
+
+<p>
+  These work like you're used to.  No big changes.
+</p>
+
+<h3> Game-Server-Only Objects </h3>
+
+<p>
+  Unlike the Rails server, the game server is persistent.  That means
+  you can have singletons, global lists, persistent objects...  Just
+  like a regular long-running Ruby program, really.  You can write the
+  objects out to files when you're done, or clear them out entirely,
+  or write them to a database...  However you'd do it in Ruby is fine.
+</p>
+
+<p>
+  However, you can't easily list them on a normal web page.  If you
+  want to show in-game objects, you'll need to use a RailsGame page
+  for that, which means slow connection (but realtime updates if you
+  want them).  Usually, you're better off not making a normal-looking
+  web page of RailsGame objects.
+</p>
+
+<h3> Hybrid Objects </h3>
+
+<p>
+  Sometimes it's important to have objects that can show up in your
+  regular web pages <i>and</i> your RailsGame page.  For instance, in
+  <a href="http://noahgibbs.github.com/railsmud/">RailsMUD</a>, the
+  only RailsGame-enabled page is the MUD console, where you type
+  commands and see the results.  But there's also a set of web pages
+  to create rooms and objects that show up in the MUD.  Since those
+  rooms and objects are created with a regular Rails scaffold, but the
+  player can see them in the MUD, they need to be hybrid objects.
+</p>
+
+<h3> Hybrid Objects with ActiveRecord </h3>
+
+<p>
+  The easiest way to make hybrid objects is to "require" your Rails
+  "config/environment.rb" file from your game server, which imports
+  things like your database settings from Rails.  Then you can call
+  the usual ActiveRecord methods easily -- things like
+  "MyMonster.find(:all)" work just like they always do, assuming you
+  have a Rails model called MyMonster that inherits from
+  ActiveRecord::Base.  Make sure to put your shared models in the
+  normal Rails app/models directory and they'll show up in your game
+  server as well.  Easy!
+</p>
+
+<p>
+  You have to be careful, though.  Remember that shared objects can be
+  modified by Rails, or the game server, or both.  If you have your
+  game server load up all the shared objects, its copies will get
+  stale when they get modified through Rails.  You'd like it to reload
+  them every time it needs them so that changes show up immediately.
+  RailsGame won't do that for you.  You may want to use obj.reload()
+  for this, since you're using ActiveRecord anyway.  If you need
+  properties to change together, be sure to use transactions!
+</p>
+
+<h3> Other Hybrid Objects </h3>
+
+<p>
+  There's nothing magical about ActiveRecord.  It's just a way to make
+  sure that your Rails app and your game server can look at the same
+  data.  Technically you could run DataMapper or something on your
+  game server even if you don't for your Rails app -- you'll just have
+  to set it up to connect to your database properly.  And that means
+  that you could use something that <i>isn't</i> a database, too, if
+  you wanted.
+</p>
+
+<p>
+  For objects that don't have to persist, MemCacheD is probably the
+  easiest.  Ruby has great interfaces for it, and Rails already knows
+  how to talk to it.  Just bear in mind that it <i>is</i> a cache, and
+  anything you store there could go away if you get low on memory.
+</p>
+
+<p>
+  Similarly, you could build yourself a little app that stores your
+  apps somewhere else, and a simple CRUD REST API to access them.  If
+  you don't need it to be fast and/or if your servers are all on the
+  same machine, why not?  There are many choices other than databases
+  for persisting your objects and letting Rails and your game server
+  both access them.  As a variation on this, you could make your game
+  server accept HTTP connections and query it from your Rails app
+  whenever you needed data.  RailsGame isn't so magical that you have
+  to use it.  If you use your game server as another type of server
+  also, though, make sure you've either got good response time or
+  threads and synchronization -- one benefit of an external database
+  server is that it lets your game server remain very simple.
+</p>
+
+</body>
