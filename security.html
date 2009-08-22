@@ -1,0 +1,76 @@
+<html>
+<head>
+<title> RailsGame Security </title>
+</head>
+<body>
+
+<h1> RailsGame Security </h1>
+
+<p>
+  Security in RailsGame is primarily aimed at securing the Juggernaut
+  message bus between components.  The game server doesn't generally
+  accept incoming connections, and Rails is already pretty well
+  secured in the ways that matter.
+</p>
+
+<p>
+  There are several different stages to secure.
+</p>
+
+<h3> Game Server Subscription </h3>
+
+<p>
+  The game server initially connects to Juggernaut.  The Rails server will
+  be consulted on this (via the subscribe URL), and should accept the
+  subscribe request only if the game server includes the correct shared
+  secret as the session ID.
+</p>
+
+<h3> Client subscription </h3>
+
+<p>
+  Clients send their Rails session keys when they subscribe to
+  Juggernaut, and Juggernaut checks them for validity with the Rails
+  server.  This prevents clients from subscribing without a valid
+  session.  However, clients can't subscribe to anything sensitive
+  anyway.  Global chat should be available to anybody, even people who
+  aren't logged in.
+</p>
+
+<p>
+  However, the game server sends world output to specific client IDs,
+  so it's good that only a real session ID works to subscribe.
+</p>
+
+<h3> Game Server Broadcasts </h3>
+
+<p>
+  The game server can send to clients, singularly or collectively,
+  through Juggernaut.  Since the current game server sends to clients
+  by client ID, it doesn't count as a broadcast.  This means that
+  Juggernaut doesn't have the check the broadcast URL, and that security
+  is handled by the players' initial subscription requests.
+</p>
+
+<p>
+  A different game server, one that had some kind of sub-channels (per
+  region?) would need to do a bit more authenticating here.  For the
+  moment, this isn't a problem.
+</p>
+
+<h3> Rails Server Broadcasts </h3>
+
+<p>
+  In a few cases, primarily login and logout, the Rails server will
+  send through Juggernaut as well.  The clients won't normally need to
+  verify this -- they're trusting Rails not to let anything bad over
+  the Juggernaut bus in the first place, and they're usually not the
+  recipients of the broadcast.  The game server can verify this with
+  the same shared secret used in the other direction.
+</p>
+
+<p>
+  TODO: make Rails send shared secret on login/logout, have game server verify
+</p>
+
+</body>

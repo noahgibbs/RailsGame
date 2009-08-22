@@ -1,0 +1,112 @@
+<html>
+<head>
+<title> RailsGame Protocol </title>
+</head>
+<body>
+
+<h1> RailsGame Protocol Specification </h1>
+
+<p>
+  RailsGame protocol is based strongly on Juggernaut protocol, as you'd
+  expect.  Juggernaut's protocol consists primarily of JSON objects
+  delimited by NUL characters.  A NUL character is a single zero byte
+  in the output stream.
+</p>
+
+<h2> On Startup </h2>
+
+<p>
+  When the game server starts up, it should connect to the Juggernaut
+  server with a TCP/IP socket.  The server location is normally stored
+  in the file "juggernaut_hosts.yml" in a standard YAML format.  Most
+  frequently, the server will default to being on localhost, port
+  5001.  It's good if your gameserver has some way to configure that,
+  whether that's juggernaut.yml or another way.  Environment variables
+  and command-line parameters would also be fine.
+</p>
+
+<p>
+  After connecting, the game server should send a "subscribe" command
+  on the "action" channel.  That command will tell Juggernaut to send
+  your server everything that comes across on the "action" channel,
+  which is all client actions, including logins and logouts.  Normal
+  clients aren't allowed to subscribe to this channel for security
+  reasons.
+</p>
+
+<p>
+  The subscribe request is a standard Juggernaut request.  You'll need
+  to set your client ID to "gameserver" and the session ID to a shared
+  secret, shared between your game server and the Rails server.  The
+  shared secret is normally passed as an environment variable, or it
+  can be given to your server via a file, environment variable or
+  command-line parameter.
+</p>
+
+<p>
+  A serialized subscribe request looks roughly like this:
+  <tt>'{"client_id": "gameserver", "channels": ["action"], "command":
+  "subscribe", "session_id": "mysharedsecret"}'</tt>.  You'll need to
+  change "mysharedsecret", of course.  The single-quotes on the
+  outside show the start and end of the structure, but the
+  double-quotes are literal -- you should include them as actual
+  double-quotes.  There will be a NUL character after the final
+  curly-brace.  You can serialize the fields in any order -- it's just
+  a JSON object.
+</p>
+
+<h2> Incoming Data </h2>
+
+<p>
+  At its simplest, the incoming data is limited to client-initiated
+  actions.  Those are actions, logins and logouts.
+</p>
+
+<p>
+  An incoming command might look like this:
+  <tt>'{"body":"...", "signature":"ba6b219dfbfb89ec479c668e075099d15",
+  "id": "1"}'</tt>, except that instead of "...", the body will have a
+  serialized JSON object as the body.  The signature is a security
+  signature from the Juggernaut server -- ignore it or verify it, as
+  suits you.
+</p>
+
+<p>
+  A body for a subscribe command might look like this:
+  <tt>'{"objects": "say huh", "type": "action", "verb": "parse",
+  "client": "angelbob"}'</tt>.  That tells you it's a parse action,
+  and "objects" is the object of that action.  The client sending the
+  parse command has the account name "angelbob".  A login or logout
+  action is similar -- the client field is who is logging in or out,
+  the type is "action" and the verb is "login" or "logout".
+</p>
+
+<h2> Outgoing Data </h2>
+
+<p>
+  Most outgoing data will be a broadcast to specific client IDs,
+  though other juggernaut modes like broadcast-to-channel are also
+  allowed.
+</p>
+
+<p>
+  A Juggernaut broadcast to a specific client ID looks like this:
+  <tt>'{"client_ids": ["angelbob"], "type": "to_clients",
+  "session_id": "mysharedsecret", "body": "javascript_function()",
+  "command": "broadcast"}'</tt>.  Within the square brackets,
+  "client_ids" may have a comma-separated list of double-quoted client
+  names, such as <tt>'["bob", "mary", "sue"]'</tt>.
+</p>
+
+<p>
+  The body (javascript_function() above) will be executed as JavaScript on the
+  receiving webclient(s).  A current broadcast body might look like this:
+  <tt>try {add_world_output("You say to yourself, \"huh\". &lt;br
+  /&gt;")} catch(e) { alert('Error!'); throw e }</tt>.  This would
+  call the function "add_world_output" with the text you see inside
+  the parantheses.  The JavaScript function will be defined by the
+  client HTML that the client was sent initially from the Rails
+  server, or could have been sent earlier by the game server.
+</p>
+
+</body>

@@ -1,0 +1,42 @@
+<html>
+<head>
+<title> RailsGame Actions </title>
+</head>
+<body>
+
+<h1> RailsGame Actions </h1>
+
+<p>
+  Any RailsGame will have the standard actions "login" and "logout"
+  defined.  Other actions are defined by the game server, or by the
+  game server along with the client JavaScript, the Rails server, or
+  both.
+</p>
+
+<h2> Predefined Actions </h2>
+
+<p>
+  For actions that you'll always allow, it's usually best to include
+  the JavaScript to send or receive them in the JavaScript you serve
+  up statically in your RailsGame view.  That way the client can
+  request it (perhaps with a link or button) and receive the
+  JavaScript function calls in response with minimal management on the
+  game server's part.
+</p>
+
+<p>
+  It's possible to write JavaScript on the client side to send any action,
+  and you don't control the client.  Remember, tools like GreaseMonkey will
+  let them send anything.  Never trust the client code!  So even if you
+  don't include JavaScript to send you an action, always verify actions that
+  are received via Juggernaut.  They can be faked!
+</p>
+
+<p>
+  It's also possible to automatically generate action names and parse
+  them on the client side.  I'll leave that as an exercise to the
+  reader -- the code to send and receive them is pretty easy, but you
+  should only do that if you really know what you're doing!
+</p>
+
+</body>

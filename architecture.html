@@ -1,0 +1,184 @@
+<html>
+<head>
+<title> RailsGame Architecture </title>
+</head>
+<body>
+
+<h1> RailsGame Architecture </h1>
+
+<h3> Modular Components </h3>
+
+<p>
+  There is a strong tradition in both the Rails and open-source game
+  communities of starting with an app or server configuration and
+  changing out parts of it for different purposes.  That's a powerful
+  piece of the culture, and RailsGame aims to support it well.  As
+  such, this document is written with the assumption that components
+  are modular, and describes how they could be changed out.  But
+  realistically, most people will use the defaults, so it also
+  mentions the configuration "out of the box".  This is a high-level
+  overview document, so it's appropriate to put more emphasis on
+  modularity here.
+</p>
+
+<h3> Basic Components </h3>
+
+<img src="railsgame_diagram.png" alt="A diagram of interacting servers" />
+
+<h3> Rails Server (part standard, part custom) </h3>
+
+<p>
+  This is a standard Rails server running a smallish Rails app.  It's
+  got the Juggernaut plugin installed, and has at least one controller
+  and a couple of views for the game client.  You can keep building a
+  standard Rails-based site around this with no trouble, in the same
+  way you would without the game components.
+</p>
+
+<p>
+  In a few cases, the Rails server might want to directly query the
+  game server, or even (not recommended) redirect HTTP queries to the
+  game server.  This is represented by the gray dotted line.  Normally
+  information should be exchanged via the database or MemCacheD rather
+  than having the Rails server directly query the game server.
+</p>
+
+<h3> Juggernaut Server (standard) </h3>
+
+<p>
+  Juggernaut is effectively a message bus between the other components
+  in the diagram -- game server, Rails server and clients.  The Rails
+  server and clients have the usual non-Juggernaut connections as
+  well, while the game server is meant to interact only through
+  Juggernaut.
+</p>
+
+<p>
+  Juggernaut is used in several ways.  The first is as a chat server
+  between players.  Normally this chat can go purely through
+  Juggernaut from player to player, and the game server doesn't even
+  need to see it.  An exception might be made for (usually rare) cases
+  where some in-game entity monitors and responds to chat.  It's often
+  easier to run a chatbot completely separately from the game server.
+  This all takes place on Juggernaut channel 'chat', which is almost
+  entirely unsecured.
+</p>
+
+<p>
+  The second purpose for Juggernaut is to collect in-game player
+  actions and send them to the game server.  This is on a different
+  channel from in-game chat.  These actions may be considered
+  "declarations of intent" rather than full actions, in the sense that
+  the server may simply deny them.  All results of the actions are
+  determined by the server, not the client.  This takes place on
+  channel 'action', which only the game server may subscribe to, but
+  any validly logged-in player may send to.
+</p>
+
+<p>
+  The juggernaut server is entirely standard, except for a small
+  configuration file telling it how to interface to your Rails app.
+</p>
+
+<h3> Game Server </h3>
+
+<p>
+  The game server is very much like a traditional non-WWW networked
+  game server in most ways.  It keeps a connection to the Juggernaut
+  server and polls it regularly.  It keeps periodic functions
+  ('heartbeat functions' in MUD parlance) running for ongoing activity
+  in the game world.
+</p>
+
+<p>
+  It's been mentioned several times that by having a Ruby game server
+  running a standard ORM, you can standardize the programming model.
+  That's true.  But it's not an architectural requirement.  As long as
+  the game server can communicate in Juggernaut's (very simple)
+  protocol, it can serve its purpose quite adequately.  Having easy
+  access to a variety of good database interfaces is mostly just a
+  bonus.
+</p>
+
+<p>
+  The game server is shown as a single entity in this diagram, but
+  that doesn't need to be true.  It doesn't even technically need to
+  limit itself to a single Juggernaut connection -- though it's
+  important not to swamp the Juggernaut server with too many
+  connections that are subscribed to all player actions.  A more
+  complex game running on more machines could easily have different
+  sub-servers separated by purpose or by in-game geography calculating
+  different parts of the game world.
+</p>
+
+<p>
+  The game server should never directly interact with the clients.
+  It's important to secure this server, and the easiest way to do that
+  is to limit it to connecting with the Juggernaut server and any
+  sub-servers it may manage.
+</p>
+
+<p>
+  The game server is shown connected to the database, and I think
+  that's a good design.  However, there's an inherent tradeoff between
+  keeping game data in the database or in the server.  Database-backed
+  data is easy to query, very reliable, easy to back up, but slow to
+  use.  In-server data is fast, can be manipulated in the local
+  format, and can have very predictable access time.  Perhaps more
+  importantly, database-backed data is the only kind of data that can
+  be easily queried by the Rails server.  If you want your game to
+  have web pages showing lists of logged-in users, updated high
+  scores, or other game data, it's usually a very good idea to store
+  those things in the database and update them appropriately.
+</p>
+
+<h3> Database </h3>
+
+<p>
+  The database is used from the Ruby on Rails server as you'd expect,
+  and can be accessed from the game server via ActiveRecord,
+  DataMapper, or any other technology of your choice.  If you pick a
+  common Ruby ORM like ActiveRecord or DataMapper, you can get a very
+  similar programming model between the game server and the Rails
+  server.  The default is ActiveRecord.
+</p>
+
+<p>
+  Any database that's compatible with Rails is fine, though SQLite is
+  probably not a good choice -- you've got the game server process
+  potentially accessing it as well.  Normally MySQL and PostgreSQL
+  would be the obvious choices here.  The default is MySQL.
+</p>
+
+<p>
+  MemcacheD, if present, can also be used to exchange information
+  between the game server and the Rails server.  It's treated as
+  interchangeable with the database in this diagram, though it's
+  important what you store in which one.  The database is slower, more
+  reliable, easier to back up and can be used for important persistent
+  data.  MemCacheD is for transient data or data that can be
+  regenerated, or that is only interesting for a given login session.
+  Of course it's possible to use MemCacheD as a cache for data which
+  is also in the database, though that's a bit more complex.
+</p>
+
+<h3> Clients </h3>
+
+<p>
+  The clients are standard web browsers.  Juggernaut compatibility
+  requires Flash to be installed, at least at version 8.  Most of the
+  "game client" being run is in JavaScript, and runs in the browser in
+  the standard way.  Flash is only used to send JavaScript and text
+  for server-pushed chat and responses from the game world.
+</p>
+
+<p>
+  Note that the server-pushed information isn't limited to text.  It's
+  perfectly possible to send any valid HTML or JavaScript, so images
+  and animations work.  Given appropriate plugins, anything you could
+  put in a web page is fair game.
+</p>
+
+<a href="index.html">Back to Main Page</a>
+
+</body>
