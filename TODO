@@ -1,3 +1,5 @@
 Check for multiple logins and do something smart
 
 Add CSS file to railsgame generator
+
+Change RM_* to RG_* for env vars
