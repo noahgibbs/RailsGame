@@ -6,35 +6,36 @@
 
 <h1> RailsGame </h1>
 
-<h2> Installing </h2>
+<h2> Installing - For Builders </h2>
 
 <p>
-  First, install the RailsGame gem: "sudo gem install
-  noahgibbs-railsgame --source http://gems.github.com".
+  First, install the RailsGame gem: "sudo gem install railsgame".
 </p>
 
 <p>
-  You'll also need a Rails project.  Type "rails myproject" in
-  the correct location, just as you always would.
+  Then, you'll want to create a Rails project using the template.  One
+  good way to do that is "rails -m `gem environment
+  gemdir`/gems/railsgame*/rails/railsgame.rb myproject".  This uses the
+  template in your version of RailsGame to make a new RailsGame-enabled
+  project.
+</p>
+
+<h2> Installing - For RailsGame Developers </h2>
+
+<p>
+  If you want to work on RailsGame itself, it's not a bad idea to
+  start like the above, but you'll want to dig deeper before long.
 </p>
 
 <p>
-  Generate crypto keys for your project: "./script/generate
-    rg_crypto_keys" will do it.  [NOTE: need to add something to
-  handle environment variable when this is run, just as ./run_server.sh
-  does.]
+  The best way to dig deeper is probably to grab the
+  <a href="http://github.com/noahgibbs/RailsGame">RailsGame source
+  from GitHub</a>.  You can install it locally via "rake install_gem",
+  like any other project using NewGem, though that'll change the name
+  to something like noahgibbs-railsgame, so beware.  That probably
+  means making changes in the template (if you use it) or
+  config/environment.rb to load the right local version instead of
+  using the released RubyForge version of the gem.  Caveat Emptor.
 </p>
-
-<p>
-  Soon: generate a RailsGame view: "./script/generate rg_scaffold &lt;name&gt;"
-  where name is the name of the controller.
-</p>
-
-<h3> Other Sections </h3>
-
-<ul>
-  <li><a href="experimental.html">Experimental or Incomplete Possibilities</a>
-    </li>
-</ul>
 
 </body>

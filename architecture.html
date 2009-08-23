@@ -40,7 +40,7 @@
   game server, or even (not recommended) redirect HTTP queries to the
   game server.  This is represented by the gray dotted line.  Normally
   information should be exchanged via the database or MemCacheD rather
-  than having the Rails server directly query the game server.
+  than having the client or Rails server directly query the game server.
 </p>
 
 <h3> Juggernaut Server (standard) </h3>
@@ -57,11 +57,11 @@
   Juggernaut is used in several ways.  The first is as a chat server
   between players.  Normally this chat can go purely through
   Juggernaut from player to player, and the game server doesn't even
-  need to see it.  An exception might be made for (usually rare) cases
-  where some in-game entity monitors and responds to chat.  It's often
-  easier to run a chatbot completely separately from the game server.
-  This all takes place on Juggernaut channel 'chat', which is almost
-  entirely unsecured.
+  need to see it.  An exception might be made for cases where some
+  in-game entity monitors and responds to chat.  It's often easier to
+  run a chatbot completely separately from the game server.  This all
+  takes place on Juggernaut channel 'chat', which has fairly light
+  security.
 </p>
 
 <p>
@@ -96,8 +96,7 @@
   That's true.  But it's not an architectural requirement.  As long as
   the game server can communicate in Juggernaut's (very simple)
   protocol, it can serve its purpose quite adequately.  Having easy
-  access to a variety of good database interfaces is mostly just a
-  bonus.
+  access to a variety of good database interfaces is just a bonus.
 </p>
 
 <p>
@@ -115,7 +114,7 @@
   The game server should never directly interact with the clients.
   It's important to secure this server, and the easiest way to do that
   is to limit it to connecting with the Juggernaut server and any
-  sub-servers it may manage.
+  sub-game-servers it may manage.
 </p>
 
 <p>
@@ -140,14 +139,15 @@
   DataMapper, or any other technology of your choice.  If you pick a
   common Ruby ORM like ActiveRecord or DataMapper, you can get a very
   similar programming model between the game server and the Rails
-  server.  The default is ActiveRecord.
+  server.  RailsMUD demonstrates basic use of ActiveRecord.
 </p>
 
 <p>
-  Any database that's compatible with Rails is fine, though SQLite is
-  probably not a good choice -- you've got the game server process
-  potentially accessing it as well.  Normally MySQL and PostgreSQL
-  would be the obvious choices here.  The default is MySQL.
+  Any database that's compatible with Rails is fine, though SQLite may
+  not scale well -- you've got the game server process potentially
+  accessing it as well.  Normally MySQL and PostgreSQL would be the
+  obvious choices here.  The default is SQLite, but that should be
+  changed for larger applications.
 </p>
 
 <p>

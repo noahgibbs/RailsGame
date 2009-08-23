@@ -1,0 +1,67 @@
+<html>
+<head>
+<title> RailsGame Containers </title>
+</head>
+<body>
+
+<h1> RailsGame Containers </h1>
+
+<p>
+  A RailsGame-enabled view connects to Juggernaut, which receives
+  actions from the client and sends JavaScript to evaluate.  But what
+  does that JavaScript do, and how does it turn into user-visible DOM
+  objects?
+</p>
+
+<p>
+  The answer is that it finds or creates RailsGame Containers, and
+  then updates their contents.
+</p>
+
+<h2> What's a Container? </h2>
+
+<p>
+  A container is a DOM object that can have its innerHTML updated.
+  Usually that's a DIV or an IFRAME, though technically nothing's
+  stopping you from using something unusual like a PRE or P tag.
+</p>
+
+<p>
+  Right now (August 2009), containers should be set up in the HTML
+  files sent to the client.  That's easy, and allows for easy updates,
+  but won't be true forever.
+</p>
+
+<h2> Statically Created Containers </h2>
+
+<p>
+  Statically created containers already exist in the HTML for the
+  RailsGame-enabled view.  It's important to set the ID field on your
+  container so that updates (whether appending or replacing HTML) are
+  easy.
+</p>
+
+<p>
+  Another advantage of this method is that it's easy to write
+  JavaScript functions for updates.  Just write a little function that
+  adds to or replaces the HTML in the static container, and then send
+  JavaScript from the server that calls the function with the right
+  argument.  Voila!
+</p>
+
+<h2> Dynamically Created Containers </h2>
+
+<p>
+  It's also possible to send JavaScript to define new functions, and
+  to add new DOM objects.  That's one way to add a new RailsGame
+  container (again, usually a DIV or IFRAME) that can later be
+  updated.
+</p>
+
+<p>
+  If you do this, you'll need to either include JavaScript to load a
+  new (dynamic?) CSS file, or you'll need to update the style on your
+  new dynamic container appropriately.
+</p>
+
+</body>
