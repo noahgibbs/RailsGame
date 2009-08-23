@@ -1,0 +1,53 @@
+<h1> <%= ENV['RM_SITE_NAME'] %> </h1>
+
+<p>
+  Welcome to <%= ENV['RM_SITE_NAME'] %> at <%= ENV['RM_SITE_URL'] %>.
+  Are those not the right names?  Then you didn't edit private_variables.sh
+  very well, did you?  This file is what people will see when they first
+  log into your MUD, so you should probably change it to say something
+  that doesn't sound like 'fill in the blanks', too.
+</p>
+
+<p>
+  You can find it at
+  <span class="filename">app/views/game/home.html.erb</span> (or wherever
+  you put the RailsGame-enabled view -- maybe not 'game').
+</p>
+
+<div id="gameLogin">
+  <p> <span id="gameLoginPara">
+    <%= link_to("Click Here", :action => 'full') %> </span>
+  </p>
+</div>
+
+<!-- The login/logout/name bar -->
+<div id="loginBar">
+<table>
+<tr>
+  <td id="regButton">
+    <%= button_to("Register", :controller => 'users', :action => 'new') %>
+  </td>
+  <td id="loginButton">
+    <%= button_to("Log In", :controller => 'sessions', :action => 'new') %>
+  </td>
+  <td id="logoutButton">
+    <%= button_to("Log Out", :controller => 'sessions', :action => 'destroy') %>
+  </td>
+  <td id="loginEntry">
+    JavaScript Off
+  </td>
+</tr>
+</table>
+</div>
+
+<!-- JavaScript for login and username stuff -->
+<script type="text/javascript">
+  username = getCookie('login');
+  if (username != null && username != "") {
+    $('loginEntry').innerHTML = "Login: " + username
+    $('regButton').style.display = "none"
+  } else {
+    $('loginEntry').innerHTML = "Not logged in"
+    $('gameLogin').style.display = "none"
+  }
+</script>

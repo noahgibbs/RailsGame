@@ -1,0 +1,57 @@
+<%= javascript_include_tag 'prototype', :juggernaut %>
+<%= juggernaut :debug => false, :client_id => @current_user.login,
+    :session_id => @jcookie,
+    :channels => [ :chat, :game ] %>
+<%= stylesheet_link_tag 'client' %>
+
+<p>
+  Logged in as <%= @current_user.login %>.
+</p>
+
+<div id="world_area">
+  <p id="world_debug"> </p>
+  <p id="world_data"></p>
+</div>
+
+<%= form_remote_tag(:url => { :action => :send_action_text },
+                    :complete => "$('action_text').value = ''" ) %>
+  <%= text_field_tag('action_text', '', { :size => 30,
+                                           :id => 'action_text' } ) %>
+  <%= submit_tag "Do It" %>
+</form>
+
+<div id="chat_area">
+  <p id="chat_debug"> </p>
+  <ul id="chat_data" style="list-style:none">
+  </ul>
+</div>
+
+<%= form_remote_tag(:url => { :action => :send_chat_data },
+                      :complete => "$('chat_input').value = ''" ) %>
+  <%= text_field_tag( 'chat_input', '', { :size => 20,
+                                          :id => 'chat_input'} ) %>
+  <%= submit_tag "Chat" %>
+</form>
+
+<script type="text/javascript">
+//<![CDATA[
+function add_chat(client, str) {
+  $('chat_debug').innerHTML = "Length: " + $('chat_data').childNodes.length
+
+  Element.insert("chat_data", { top: "<li> &lt;" + client + "&gt;: " +
+                 str + "</li>" });
+}
+
+function add_world_output(str) {
+  Element.insert("world_data", { bottom: str });
+}
+
+function replace_world_output(str) {
+  $('world_data').innerHTML = str
+}
+
+function world_eval(str) {
+
+}
+//]]>
+</script>

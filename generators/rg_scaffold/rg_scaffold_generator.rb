@@ -2,12 +2,18 @@ class RgScaffoldGenerator < Rails::Generator::NamedBase
 
   def manifest
     record do |m|
-      #m.template 'controller/game_controller.rb',
-      #		  "app/controllers/#{file_name}_controller.rb"
-      #m.template 'view/game/home.rb',
-      #		  "app/views/#{file_name}/home.rb"
-      #m.template 'view/game/full.rb',
-      #		  "app/views/#{file_name}/full.rb"
+      m.directory "app/controllers"
+      m.directory "app/views"
+      m.directory "app/views/layouts"
+      m.directory "app/views/#{file_name}"
+      m.template 'controllers/game_controller.rb',
+      		  "app/controllers/#{file_name}_controller.rb"
+      m.file 'layouts/games.html.erb',
+      		  "app/views/layouts/#{file_name}s.html.erb"
+      m.file 'views/home.html.erb',
+      		  "app/views/#{file_name}/home.html.erb"
+      m.file 'views/full.html.erb',
+      		  "app/views/#{file_name}/full.html.erb"
     end
   end
 
