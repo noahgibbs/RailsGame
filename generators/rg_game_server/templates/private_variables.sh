@@ -46,7 +46,7 @@ export RM_RAILS_ENVIRONMENT=development
 export RM_GAMESERVER_HOST=localhost
 export RM_GAMESERVER_PORT=6001
 
-# Settings for the Juggernaut server, normally the same as the main
-# game server
+# Settings for the Juggernaut server.  Normally this is on the same
+# machine as the main game server
 export RM_JUGGERNAUT_SERVER=$RM_SITE_ADDRESS
 export RM_JUGGERNAUT_PORT=5001
