@@ -14,6 +14,9 @@ class RgScaffoldGenerator < Rails::Generator::NamedBase
       		  "app/views/#{file_name}/home.html.erb"
       m.file 'views/full.html.erb',
       		  "app/views/#{file_name}/full.html.erb"
+      m.directory "public"
+      m.directory "public/stylesheets"
+      m.file 'railsgame.css', 'public/stylesheets/railsgame.css'
     end
   end
 

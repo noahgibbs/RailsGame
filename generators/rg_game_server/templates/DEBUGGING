@@ -1,0 +1,30 @@
+*** Server lifetime:
+
+The game server runs until it disconnects from Juggernaut, or is
+interrupted with a key combination like CTRL-C.
+
+*** Server output:
+
+There are two output logs to look at, plus the console.  The file
+juggernaut.yml.output contains output from the Juggernaut server.  If
+you find invalid requests in there, or evidence of error codes or
+server errors, that may be part of your problem.
+
+The file log/development.log (or a different name if you're not using
+the 'development' Rails environment) contains the output from the
+Rails server.  That can be used to see what URLs have been accessed,
+and what status codes the server returned.
+
+Right now, game server output just goes to the console.  You'll see it
+as the server runs.
+
+*** Does something just not run?
+
+Daemons especially don't always say anything when they get an
+immediate startup error.
+
+Try running the components individually.  "ruby rails_control.rb run"
+for Rails, "ruby juggernaut_control.rb run" for Juggernaut, and
+./game/server for the Game server -- but remember, the game server
+depends on the other two!  So you may need to use 'start' instead of
+'run' to run them in daemon mode.

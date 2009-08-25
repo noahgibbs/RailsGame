@@ -1,0 +1,10 @@
+Description:
+    This generator creates a RailsGame game server with some simple actions
+    and a location to get started with.  See the RailsGame documentation for
+    more information.
+
+Example:
+    ./script/generate rg_game_server
+
+    This would create a game server file in the game subdirectory, along with
+player, action and location files.

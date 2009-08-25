@@ -1,0 +1,9 @@
+Description:
+    This generator creates RailsGame tie-ins for RESTful-authentication users
+    and migrations.
+
+Example:
+    ./script/generate rg_auth_users
+
+    This creates middleware and controller code to connect Juggernaut to
+    Rails more securely.
