@@ -78,7 +78,7 @@ if use_rest_auth
     sub_in_file("app/models/user_mailer.rb",
 		/http:\/\/YOURSITE\//, '#{ENV[\'RM_SITE_URL\']}/')
     sub_in_file("app/models/user_mailer.rb",
-		/\"\[YOURSITE\]\"/, "ENV['RM_MAIL_PREFIX'")
+		/\"\[YOURSITE\] \"/, "ENV['RM_MAIL_PREFIX']")
     sub_in_file("app/models/user_mailer.rb",
 		/\"ADMINEMAIL\"/, "ENV['RM_ADMIN_EMAIL']")
     sub_in_file("app/views/user_mailer/signup_notification.erb",
@@ -129,6 +129,8 @@ sub_in_file('config/juggernaut_hosts.yml',
 sub_in_file('config/juggernaut_hosts.yml',
 	    /:host: 127.0.0.1/,
 	    ":host: <%= ENV['RM_JUGGERNAUT_SERVER'] %>")
+sub_in_file('config/juggernaut_hosts.yml',
+	    /:public_/, "#:public_")
 
 rake("db:migrate") # By default, this will be SQLite
 
