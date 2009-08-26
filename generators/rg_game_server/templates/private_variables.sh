@@ -17,7 +17,7 @@ export RM_SMTP_PORT=25
 export RM_SMTP_DOMAIN=$RM_SITE_ADDRESS
 export RM_SMTP_USER=joesmith
 export RM_SMTP_PASSWORD='j03_707411Y_r0xx0rz'
-export RM_MAIL_PREFIX='['$RM_SITE_NAME']'
+export RM_MAIL_PREFIX='['$RM_SITE_NAME'] '
 
 # The admin name for the original admin account
 export RM_ADMIN_NAME=joe_the_admin

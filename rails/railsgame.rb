@@ -30,9 +30,9 @@ def append_to_env(ins_text, options = {})
   sub_in_file("config/environment.rb", /^end$/, "#{ins_text}end")
 end
 
-use_rest_auth = ask("Use accounts with RESTful_Authentication [yes/no] ?")
-use_activate = ask("Require email activation of accounts [yes/no] ?")
-#use_openid = ask("Allow OpenID login? [yes/no]") if use_rest_auth
+use_rest_auth = yes?("Use accounts with RESTful_Authentication [yes/no] ?")
+use_activate = yes?("Require email activation of accounts [yes/no] ?")
+#use_openid = yes?("Allow OpenID login? [yes/no]") if use_rest_auth
 
 plugin 'juggernaut_plugin', :git => 'git://github.com/maccman/juggernaut_plugin.git'
 plugin 'restful-authentication', :git => 'git://github.com/technoweenie/restful-authentication.git' if use_rest_auth
@@ -72,21 +72,22 @@ if use_rest_auth
 
     sub_in_file("config/environment.rb",
                 /\# config.active_record.observers = (.*)$/,
-		"config.active_record.observers = :user_observer\n",
+		"config.active_record.observers = :user_observer",
 		:force => true)
     # modify user_mailer model
     sub_in_file("app/models/user_mailer.rb",
-		/YOURSITE/, "#{ENV['RM_SITE_URL']}")
+		/http:\/\/YOURSITE\//, '#{ENV[\'RM_SITE_URL\']}/')
     sub_in_file("app/models/user_mailer.rb",
-		/[YOURSITE]/, "[#{ENV['RM_MAIL_PREFIX']}]")
+		/\"\[YOURSITE\]\"/, "ENV['RM_MAIL_PREFIX'")
     sub_in_file("app/models/user_mailer.rb",
-		/ADMINEMAIL/, "#{ENV['RM_ADMIN_EMAIL']}")
+		/\"ADMINEMAIL\"/, "ENV['RM_ADMIN_EMAIL']")
     sub_in_file("app/views/user_mailer/signup_notification.erb",
 		/Password: (.*)$/,
-		"Password: (not sent by email - that's insecure!)\n")
+		"Password: (not sent by email - that's insecure!)")
 
     append_to_env <<-END
 
+  # Configure SMTP server for outgoing mail server
   config.action_mailer.smtp_settings = { :address => ENV['RM_SMTP_SERVER'],
     :port => ENV['RM_SMTP_PORT'], :domain => ENV['RM_SMTP_DOMAIN'],
     :user_name => ENV['RM_SMTP_USER'], :password => ENV['RM_SMTP_PASSWORD'],
@@ -102,7 +103,7 @@ END
   # modify session_store for env vars and to add middleware
   sub_in_file('config/initializers/session_store.rb',
               /:secret\s+=>\s+'(.*)'/,
-	      ":secret => ENV['RM_RAILS_SESSION_SECRET']\n")
+	      ":secret => ENV['RM_RAILS_SESSION_SECRET']")
 
   sub_in_file('config/environment.rb',
 	      /\#? config.load_paths\s+\+=\s+(.*)$/,
@@ -126,7 +127,7 @@ sub_in_file('config/juggernaut_hosts.yml',
 	    /:port: 5001/,
 	    ":port: <%= ENV['RM_JUGGERNAUT_PORT'] %>")
 sub_in_file('config/juggernaut_hosts.yml',
-	    /:host: localhost/,
+	    /:host: 127.0.0.1/,
 	    ":host: <%= ENV['RM_JUGGERNAUT_SERVER'] %>")
 
 rake("db:migrate") # By default, this will be SQLite
@@ -136,6 +137,7 @@ file '.gitignore', <<-END
 #*#
 log/*.log
 log/*.pid
+log/*.output
 db/*.db
 db/*.sqlite3
 tmp/**/*
@@ -160,7 +162,7 @@ file "TODO", <<-END
 * Add a license file, so it's clear to everybody what rights you reserve.
 END
 
-if ask("Set up an initial Git repository [yes/no] ?")
+if yes?("Set up an initial Git repository [yes/no] ?")
   git :init
   git :add => "."
   git :commit => "-a -m 'Initial commit'"
