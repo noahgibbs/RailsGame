@@ -17,4 +17,5 @@ require "railsgame/player"
 require "railsgame/location"
 
 # Methods of interaction
+require "railsgame/container"
 require "railsgame/text_output"

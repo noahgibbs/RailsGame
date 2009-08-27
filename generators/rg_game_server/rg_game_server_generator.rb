@@ -2,7 +2,7 @@ class RgGameServerGenerator < Rails::Generator::Base
 
   def manifest
     record do |m|
-      m.file 'run_server.sh', 'run_server.sh'
+      m.file 'run_server.sh', 'run_server.sh', :chmod => 0755
       m.file 'private_variables.sh', 'private_variables.sh'
       m.file 'rails_control.rb', 'rails_control.rb'
       m.file 'juggernaut_control.rb', 'juggernaut_control.rb'

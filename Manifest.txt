@@ -8,6 +8,7 @@ TODO
 generators/rg_auth_users/USAGE
 generators/rg_auth_users/rg_auth_users_generator.rb
 generators/rg_auth_users/templates/juggernaut_session_cookie_middleware.rb
+generators/rg_auth_users/templates/sessions.html.erb
 generators/rg_crypto_keys/USAGE
 generators/rg_crypto_keys/rg_crypto_keys_generator.rb
 generators/rg_crypto_keys/templates/crypto_keys.sh

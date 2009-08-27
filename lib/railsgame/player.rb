@@ -64,6 +64,10 @@ module RailsGame::PlayerFunctions
     @server.send_to_clients(str, @login)
   end
 
+  def send_javascript(text)
+    @server.send_to_clients(text, @login)
+  end
+
   def show_location(location)
     send_html(location.show_to(self))
   end

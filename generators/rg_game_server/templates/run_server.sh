@@ -38,7 +38,7 @@ sleep 2
 
 # MUD server for coordinating the environment
 # $RM_GAMESERVER_HOST must be this machine if you don't change this
-./game/server -p $RM_GAMESERVER_PORT
+ruby ./game/server.rb -p $RM_GAMESERVER_PORT
 
 # Game server stopped, stop other servers
 ruby juggernaut_control.rb stop

@@ -34,7 +34,8 @@
     <%= button_to("Log Out", :controller => 'sessions', :action => 'destroy') %>
   </td>
   <td id="loginEntry">
-    JavaScript Off
+    <%= @current_user ? "Logged in as #{@current_user.login}" :
+	"Not logged in" %>
   </td>
 </tr>
 </table>

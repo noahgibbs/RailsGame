@@ -1,5 +1,7 @@
 Check for multiple logins and do something smart
 
+Add CSS files for game controller
+
 Merge rg_auth_users with rg_game_server?
 
 Change RM_* to RG_* for env vars

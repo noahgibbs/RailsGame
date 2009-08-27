@@ -10,9 +10,11 @@ class <%= class_name -%>Controller < ApplicationController
   include ERB::Util # for html_escape, aka h()
 
   def home
+    current_user   # set @current_user variable
   end
 
   def full
+    current_user   # set @current_user variable
     @jcookie = cookies[ActionController::Base.session_options[:key]]
   end
 
