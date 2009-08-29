@@ -2,16 +2,20 @@
 
 <p>
   Welcome to <%= ENV['RG_SITE_NAME'] %> at <%= ENV['RG_SITE_URL'] %>.
-  Are those not the right names?  Then you didn't edit private_variables.sh
-  very well, did you?  This file is what people will see when they first
+  This file is what people will see when they first
   log into your MUD, so you should probably change it to say something
   that doesn't sound like 'fill in the blanks', too.
 </p>
 
 <p>
+  Make sure to fully edit private_variables.sh, if you haven't already.
+  It sets things like the URL and game name above, and many other
+  very important things.
+</p>
+
+<p>
   You can find it at
-  <span class="filename">app/views/game/home.html.erb</span> (or wherever
-  you put the RailsGame-enabled view -- maybe not 'game').
+  <span class="filename"><%= __FILE__ %></span>.
 </p>
 
 <div id="gameLogin">
