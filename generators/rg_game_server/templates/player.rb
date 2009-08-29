@@ -9,7 +9,7 @@ class BasicPlayer
   def self.login(name, objects)
     RailsGame::Player.login(name, objects)
     player = RailsGame::Player.by_name(name)
-    player.send_html("Welcome to #{ENV['RM_SITE_NAME']}, #{name}! <br />")
+    player.send_html("Welcome to #{ENV['RG_SITE_NAME']}, #{name}! <br />")
 
     player.move_to(StartLocation.instance())
     player.show_current_location

@@ -1,7 +1,12 @@
-Check for multiple logins and do something smart
-
-Add CSS files for game controller
-
-Merge rg_auth_users with rg_game_server?
-
-Change RM_* to RG_* for env vars
+* Check for multiple logins and do something smart
+* Add CSS files for game controller
+* Merge rg_auth_users with rg_game_server?
+* Add send-action API (and other Juggernaut abstraction APIs?) both on client
+  and server
+* Add spinner for Juggernaut connection that gets properly updated (static?
+  container?)
+* Exception notification for rails and game server
+* Add 'lost password' link
+* Add 'delete account' link
+* OpenID in template
+* Allow multiple accounts per email address?

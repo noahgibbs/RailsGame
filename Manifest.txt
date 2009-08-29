@@ -37,6 +37,7 @@ init.rb
 install.rb
 lib/railsgame.rb
 lib/railsgame/command_parser.rb
+lib/railsgame/container.rb
 lib/railsgame/juggernaut_connect.rb
 lib/railsgame/location.rb
 lib/railsgame/mobile.rb

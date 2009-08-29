@@ -19,7 +19,7 @@ class RailsGame::JuggernautConnect
   def connect
     @sockets.nil? || @sockets.empty? or raise "Already connected to Juggernaut"
     handshake = { :command => :subscribe,
-                  :session_id => ENV['RM_JUGGER_GS_SESSION'],
+                  :session_id => ENV['RG_JUGGER_GS_SESSION'],
                   :client_id => :gameserver,
                   :channels => [ :action ]
                 }
@@ -99,7 +99,7 @@ class RailsGame::JuggernautConnect
   def hosts
     check_config
     @config[:hosts].select {|h|
-      !h[:environment] or h[:environment].to_s == ENV['RM_RAILS_ENVIRONMENT']
+      !h[:environment] or h[:environment].to_s == ENV['RG_RAILS_ENVIRONMENT']
     }
   end
 
@@ -113,7 +113,7 @@ class RailsGame::JuggernautConnect
       socket = @sockets[idx]
 
       hash[:secret_key] = address[:secret_key] if address[:secret_key]
-      hash[:session_id] = ENV['RM_JUGGER_GS_SESSION']
+      hash[:session_id] = ENV['RG_JUGGER_GS_SESSION']
 
       # Zero-terminate
       socket.print(hash.to_json + CR)

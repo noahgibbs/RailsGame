@@ -2,7 +2,7 @@
 
 $LOAD_PATH << File.expand_path(File.dirname(__FILE__))
 
-RAILS_GEM_VERSION = (ENV['RM_RAILS_GEM_VERSION'] || '2.3.3') unless defined? RAILS_GEM_VERSION
+RAILS_GEM_VERSION = (ENV['RG_RAILS_GEM_VERSION'] || '2.3.3') unless defined? RAILS_GEM_VERSION
 
 RailsConfigDir = File.expand_path(File.join(File.dirname(__FILE__),
 					    "..", "config"))

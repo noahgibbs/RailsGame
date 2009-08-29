@@ -51,7 +51,7 @@ gem "railsgame"
 run "rm public/index.html"
 run "mv README RAILS_README"
 generate(:rg_crypto_keys)
-ENV['RM_RAILS_SESSION_SECRET'] = 'a' * 50  # Fake session secret
+ENV['RG_RAILS_SESSION_SECRET'] = 'a' * 50  # Fake session secret
 
 act_opts = []
 act_opts = ["--include-activation"] if use_activate
@@ -76,11 +76,11 @@ if use_rest_auth
 		:force => true)
     # modify user_mailer model
     sub_in_file("app/models/user_mailer.rb",
-		/http:\/\/YOURSITE\//, '#{ENV[\'RM_SITE_URL\']}/')
+		/http:\/\/YOURSITE\//, '#{ENV[\'RG_SITE_URL\']}/')
     sub_in_file("app/models/user_mailer.rb",
-		/\"\[YOURSITE\] \"/, "ENV['RM_MAIL_PREFIX']")
+		/\"\[YOURSITE\] \"/, "ENV['RG_MAIL_PREFIX']")
     sub_in_file("app/models/user_mailer.rb",
-		/\"ADMINEMAIL\"/, "ENV['RM_ADMIN_EMAIL']")
+		/\"ADMINEMAIL\"/, "ENV['RG_ADMIN_EMAIL']")
     sub_in_file("app/views/user_mailer/signup_notification.erb",
 		/Password: (.*)$/,
 		"Password: (not sent by email - that's insecure!)")
@@ -88,9 +88,9 @@ if use_rest_auth
     append_to_env <<-END
 
   # Configure SMTP server for outgoing mail server
-  config.action_mailer.smtp_settings = { :address => ENV['RM_SMTP_SERVER'],
-    :port => ENV['RM_SMTP_PORT'], :domain => ENV['RM_SMTP_DOMAIN'],
-    :user_name => ENV['RM_SMTP_USER'], :password => ENV['RM_SMTP_PASSWORD'],
+  config.action_mailer.smtp_settings = { :address => ENV['RG_SMTP_SERVER'],
+    :port => ENV['RG_SMTP_PORT'], :domain => ENV['RG_SMTP_DOMAIN'],
+    :user_name => ENV['RG_SMTP_USER'], :password => ENV['RG_SMTP_PASSWORD'],
     :authentication => :login }
 END
 
@@ -99,11 +99,11 @@ END
   # change site_keys to use env vars
   sub_in_file('config/initializers/site_keys.rb',
 	      /REST_AUTH_SITE_KEY\s+=\s+'(.*)'$/,
-	      "REST_AUTH_SITE_KEY = ENV['RM_REST_AUTH_SITE_KEY']")
+	      "REST_AUTH_SITE_KEY = ENV['RG_REST_AUTH_SITE_KEY']")
   # modify session_store for env vars and to add middleware
   sub_in_file('config/initializers/session_store.rb',
               /:secret\s+=>\s+'(.*)'/,
-	      ":secret => ENV['RM_RAILS_SESSION_SECRET']")
+	      ":secret => ENV['RG_RAILS_SESSION_SECRET']")
 
   sub_in_file('config/environment.rb',
 	      /\#? config.load_paths\s+\+=\s+(.*)$/,
@@ -125,10 +125,10 @@ sub_in_file('app/controllers/application_controller.rb',
 # modify juggernaut_hosts.yml
 sub_in_file('config/juggernaut_hosts.yml',
 	    /:port: 5001/,
-	    ":port: <%= ENV['RM_JUGGERNAUT_PORT'] %>")
+	    ":port: <%= ENV['RG_JUGGERNAUT_PORT'] %>")
 sub_in_file('config/juggernaut_hosts.yml',
 	    /:host: 127.0.0.1/,
-	    ":host: <%= ENV['RM_JUGGERNAUT_SERVER'] %>")
+	    ":host: <%= ENV['RG_JUGGERNAUT_SERVER'] %>")
 sub_in_file('config/juggernaut_hosts.yml',
 	    /:public_/, "#:public_")
 
