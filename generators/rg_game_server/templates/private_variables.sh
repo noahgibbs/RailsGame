@@ -19,7 +19,7 @@ export RG_SMTP_USER=joesmith
 export RG_SMTP_PASSWORD='j03_707411Y_r0xx0rz'
 export RG_MAIL_PREFIX='['$RG_SITE_NAME'] '
 
-# The admin name for the original admin account
+# The login for the original admin account
 export RG_ADMIN_NAME=joe_the_admin
 
 # The 'customer service' address your users are told to use.
@@ -32,11 +32,7 @@ export RG_ADMIN_EMAIL=joesmith@myisp.com
 # but if you don't change them then things will still work fine.
 
 # Choose 'development' or 'release'
-# If you change this, change it in config/juggernaut_hosts as well!
 export RG_RAILS_ENVIRONMENT=development
-
-# Set to override which Rails version to use
-#export RG_RAILS_VERSION=2.3.3
 
 ############# EXPERT SETTINGS ##########################################
 # Please know a fair bit about the architecture of the server, how it works,

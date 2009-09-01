@@ -9,7 +9,7 @@ class RgScaffoldGenerator < Rails::Generator::NamedBase
       m.template 'controllers/game_controller.rb',
       		  "app/controllers/#{file_name}_controller.rb"
       m.file 'layouts/games.html.erb',
-      		  "app/views/layouts/#{file_name}s.html.erb"
+      		  "app/views/layouts/#{file_name}.html.erb"
       m.file 'views/home.html.erb',
       		  "app/views/#{file_name}/home.html.erb"
       m.file 'views/full.html.erb',

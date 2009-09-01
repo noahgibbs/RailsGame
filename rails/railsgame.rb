@@ -63,9 +63,9 @@ generate(:rg_game_server)
 
 if use_rest_auth
   route "map.root :controller => 'game', :action => 'home'"
-  route "map.signup '/signup', :controller => 'users', :action => 'new'"
-  route "map.signup '/login', :controller => 'session', :action => 'new'"
-  route "map.signup '/logout', :controller => 'session', :action => 'destroy'"
+  #route "map.signup '/signup', :controller => 'users', :action => 'new'"
+  #route "map.login '/login', :controller => 'session', :action => 'new'"
+  #route "map.logout '/logout', :controller => 'session', :action => 'destroy'"
   if use_activate
     route "map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate', :activation_code => nil"
     # add :user_observer to list of observers

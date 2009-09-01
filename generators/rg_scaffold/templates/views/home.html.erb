@@ -18,25 +18,30 @@
   <span class="filename"><%= __FILE__ %></span>.
 </p>
 
+<% if @current_user %>
 <div id="gameLogin">
   <p> <span id="gameLoginPara">
     <%= link_to("Click Here", :action => 'full') %> </span>
   </p>
 </div>
+<% end %>
 
 <!-- The login/logout/name bar -->
 <div id="loginBar">
 <table>
 <tr>
+  <% unless @current_user %>
   <td id="regButton">
     <%= button_to("Register", :controller => 'users', :action => 'new') %>
   </td>
   <td id="loginButton">
     <%= button_to("Log In", :controller => 'sessions', :action => 'new') %>
   </td>
+  <% else %>
   <td id="logoutButton">
     <%= button_to("Log Out", :controller => 'sessions', :action => 'destroy') %>
   </td>
+  <% end %>
   <td id="loginEntry">
     <%= @current_user ? "Logged in as #{@current_user.login}" :
 	"Not logged in" %>
@@ -44,15 +49,3 @@
 </tr>
 </table>
 </div>
-
-<!-- JavaScript for login and username stuff -->
-<script type="text/javascript">
-  username = getCookie('login');
-  if (username != null && username != "") {
-    $('loginEntry').innerHTML = "Login: " + username
-    $('regButton').style.display = "none"
-  } else {
-    $('loginEntry').innerHTML = "Not logged in"
-    $('gameLogin').style.display = "none"
-  }
-</script>
