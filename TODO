@@ -1,6 +1,6 @@
 * Check for multiple logins and do something smart
 * Add CSS files for game controller
-* Merge rg_auth_users with rg_game_server?
+* Merge rg_auth_users with rg_game_server
 * Add send-action API (and other Juggernaut abstraction APIs?) both on client
   and server
 * Add spinner for Juggernaut connection that gets properly updated (static?

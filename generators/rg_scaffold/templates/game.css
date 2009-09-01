@@ -1,0 +1,17 @@
+#chat_area {
+  background-color: #F0F0FF;
+  min-height: 150px;
+}
+
+#world_area {
+  background-color: #F0FFF0;
+  min-height: 200px;
+}
+
+#chat_debug {
+  color: red;
+}
+
+#world_debug {
+  color: red;
+}

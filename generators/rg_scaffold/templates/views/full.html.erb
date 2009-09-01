@@ -2,7 +2,7 @@
 <%= juggernaut :debug => false, :client_id => @current_user.login,
     :session_id => @jcookie,
     :channels => [ :chat, :game ] %>
-<%= stylesheet_link_tag 'client' %>
+<%= stylesheet_link_tag 'game' %>
 
 <p>
   Logged in as <%= @current_user.login %>.

@@ -17,6 +17,7 @@ class RgScaffoldGenerator < Rails::Generator::NamedBase
       m.directory "public"
       m.directory "public/stylesheets"
       m.file 'railsgame.css', 'public/stylesheets/railsgame.css'
+      m.file 'game.css', 'public/stylesheets/game.css'
     end
   end
 

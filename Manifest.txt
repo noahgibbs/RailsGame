@@ -29,6 +29,7 @@ generators/rg_game_server/templates/start_location.rb
 generators/rg_scaffold/USAGE
 generators/rg_scaffold/rg_scaffold_generator.rb
 generators/rg_scaffold/templates/controllers/game_controller.rb
+generators/rg_scaffold/templates/game.css
 generators/rg_scaffold/templates/layouts/games.html.erb
 generators/rg_scaffold/templates/railsgame.css
 generators/rg_scaffold/templates/views/full.html.erb
