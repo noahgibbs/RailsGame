@@ -1,6 +1,11 @@
 require "activesupport"
+gem "actionpack"
+require "action_view"
 
 class RailsGame::Server < RailsGame::JuggernautConnect
+  include ActionView::Helpers::JavaScriptHelper # for javascript_escape
+  include ERB::Util  # for html_escape aka h
+
   def initialize
     @last_interval = Time.now
   end

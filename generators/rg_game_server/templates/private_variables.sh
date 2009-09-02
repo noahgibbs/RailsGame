@@ -38,10 +38,6 @@ export RG_RAILS_ENVIRONMENT=development
 # Please know a fair bit about the architecture of the server, how it works,
 # and what you're doing with it before you change anything below this line.
 
-# The port for the gameserver
-export RG_GAMESERVER_HOST=localhost
-export RG_GAMESERVER_PORT=6001
-
 # Settings for the Juggernaut server.  Normally this is on the same
 # machine as the main game server
 export RG_JUGGERNAUT_SERVER=$RG_SITE_ADDRESS

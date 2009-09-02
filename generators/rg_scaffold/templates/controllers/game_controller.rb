@@ -1,8 +1,9 @@
 class <%= class_name -%>Controller < ApplicationController
   include AuthenticatedSystem
 
-  protect_from_forgery :except => ['jug_login', 'jug_logout',
-  		       	       	   'jug_con_logout', 'jug_broadcast']
+  jug_methods = [:jug_login, :jug_logout, :jug_con_logout, :jug_broadcast]
+  #layout "game", :except => jug_methods
+  protect_from_forgery :except => jug_methods
 
   before_filter :login_required, :only => [ 'full' ]
 

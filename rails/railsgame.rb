@@ -134,21 +134,6 @@ sub_in_file('config/juggernaut_hosts.yml',
 
 rake("db:migrate") # By default, this will be SQLite
 
-file '.gitignore', <<-END
-*~
-#*#
-log/*.log
-log/*.pid
-log/*.output
-db/*.db
-db/*.sqlite3
-tmp/**/*
-pkg/*
-config/database.yml
-crypto_keys.sh
-private_variables.sh
-END
-
 file "TODO", <<-END
 * Go through private_variables.sh and add my information
 
@@ -168,6 +153,22 @@ if yes?("Set up an initial Git repository [yes/no] ?")
   git :init
   git :add => "."
   git :commit => "-a -m 'Initial commit'"
+
+  file '.gitignore', <<-END
+*~
+#*#
+log/*.log
+log/*.pid
+log/*.output
+db/*.db
+db/*.sqlite3
+tmp/**/*
+pkg/*
+config/database.yml
+crypto_keys.sh
+private_variables.sh
+END
+
 end
 
 print <<-END

@@ -21,6 +21,9 @@ else
   . crypto_keys.sh
 fi
 
+ruby juggernaut_control.rb stop
+ruby rails_control.rb stop
+
 # For now, crash and die on hangup, too.  That'll be worth changing later.
 trap "ruby rails_control.rb stop; ruby juggernaut_control.rb stop; exit" INT TERM EXIT HUP
 
@@ -36,9 +39,8 @@ ruby juggernaut_control.rb start
 echo "Delaying while Juggernaut starts..."
 sleep 2
 
-# MUD server for coordinating the environment
-# $RG_GAMESERVER_HOST must be this machine if you don't change this
-ruby ./game/server.rb -p $RG_GAMESERVER_PORT
+# game server
+ruby ./game/server.rb
 
 # Game server stopped, stop other servers
 ruby juggernaut_control.rb stop
