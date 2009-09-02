@@ -9,15 +9,42 @@
 <h2> Installing - For Builders </h2>
 
 <p>
+  <b><i>NOTE: this probably won't work yet!  We're still rolling our first
+  end-user release.  You'll probably need to use the "RailsGame
+  Developers" instructions below instead of this!  If you're not very
+  confident in your Rails-fu don't do it at all yet!</i></b>
+</p>
+
+<p>
   First, install the RailsGame gem: "sudo gem install railsgame".
 </p>
 
 <p>
   Then, you'll want to create a Rails project using the template.  One
   good way to do that is "rails -m `gem environment
-  gemdir`/gems/railsgame*/rails/railsgame.rb myproject".  This uses the
-  template in your version of RailsGame to make a new RailsGame-enabled
-  project.
+  gemdir`/gems/railsgame*/rails/railsgame.rb myrailsgame".  This uses
+  a template to make a new RailsGame project.
+</p>
+
+<p>
+  You'll need to answer a couple of questions for the template.  If
+  you say to use RESTful authentication then the web site will allow
+  people to create accounts, and by default they'll have to use them
+  to play your game.
+</p>
+
+<p>
+  If you tell it to use email activation, people will need to give a
+  valid email address and click a "confirm" link in order to make
+  their accounts.
+</p>
+
+<p>
+  If you tell it to create an initial repository, it'll set up Git for
+  all your code, check it in, and create a .gitignore file that's
+  probably what you want.  Even if you're the only one working on your
+  game, use source code control.  Git is pretty good, but use whatever
+  you're comfortable with.
 </p>
 
 <h2> Installing - For RailsGame Developers </h2>
@@ -31,11 +58,17 @@
   The best way to dig deeper is probably to grab the
   <a href="http://github.com/noahgibbs/RailsGame">RailsGame source
   from GitHub</a>.  You can install it locally via "rake install_gem",
-  like any other project using NewGem, though that'll change the name
-  to something like noahgibbs-railsgame, so beware.  That probably
-  means making changes in the template (if you use it) or
-  config/environment.rb to load the right local version instead of
-  using the released RubyForge version of the gem.  Caveat Emptor.
+  like any other project using NewGem.  The gem name will be something
+  like noahgibbs-railsgame.
+</p>
+
+<p>
+  Now that you have the game in place, follow the instructions above
+  to make a new RailsGame project from the template.  Where it says
+  "railsgame*" above, you'll need to say "noahgibbs-railsgame*"
+  instead.  That's because GitHub is kind of a pain about how it does
+  Ruby gems.  You could also directly use the same template file from
+  the RailsGame source directory.
 </p>
 
 </body>

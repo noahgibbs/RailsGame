@@ -1,0 +1,70 @@
+<html>
+<head>
+<title> Start Building a RailsGame </title>
+</head>
+<body>
+
+<p>
+  To build a RailsGame, first you'll need an idea for a game.  Think
+  about browser games you've seen, and browser games you haven't.
+  Remember that whatever your idea is, you'll need to find, make or
+  buy all the pictures, text or animations you're thinking of!  Find a
+  friend who's an artist, learn to draw or write, or get ready to
+  spend a bit of money...
+</p>
+
+<p>
+  So let's say you've got that angle covered.  Think of your basic
+  game design.  Now, think of the smallest piece of it that will make
+  an interesting game.  Something you think you could put together in
+  a week or two (or less!), just to have something to show off.
+  That's where you should start.
+</p>
+
+<p>
+  Now, divide your idea up into things that look like "normal" web
+  pages and parts of the game.  For instance, you probably want the
+  player to log in on a pretty standard-looking web page.  If you're
+  writing a game like "Master of Orion" or "Civilization", there will
+  be a lot of pages that sit and wait for instructions -- think of the
+  screen with all the cities on it, for instance.
+</p>
+
+<p>
+  For the normal web pages, you can build them
+  in <a href="http://rubyonrails.org">Ruby on Rails</a>, just as you
+  always would.  After you've created your RailsGame directory, you
+  could even put one or two together, just to get started.
+</p>
+
+<p>
+  For pages that breathe, though, you'll wind up adding some
+  RailsGame <a href="containers.html">containers</a>.  Containers are
+  'windows' in the user's browser for things like player-to-player
+  chat, or pictures of who is nearby, or the section of a game map
+  that the player can see.
+</p>
+
+<p>
+  It's possible to have parts of the web page that aren't containers,
+  of course.  For instance, a help system frame displaying HTML help
+  wouldn't need to talk to the RailsGame server, so it could exist in
+  the page without any RailsGame settings at all.  It could be a
+  standard IFRAME with nothing special, and nothing connecting it to
+  the server.
+</p>
+
+<h2> Server Push </h2>
+
+<p>
+  Where RailsGame becomes interesting is when you need to send
+  something back to the client.  That is, when the person at the
+  browser takes no action, but still sees a result.  In chat, that
+  would be when another person has chatted to them, or when the map
+  changes, or when the game window above says something like "Bob has
+  entered the room".  To enable that, you either need AJAX polling
+  (inefficient and not very reliable) or server push.  RailsGame
+  exists specifically to enable server push.
+</p>
+
+</body>

@@ -1,0 +1,72 @@
+<html>
+<head>
+<title> RailsGame Containers </title>
+</head>
+<body>
+
+<h1> RailsGame Containers </h1>
+
+<p>
+  Containers are 'windows' in the user's browser for things like
+  player-to-player chat, or pictures of who is nearby, or the section
+  of a game map that the player can see.
+</p>
+
+<div>
+<a href="http://www.aardwolf.com/tmp/aardwolf-mud-2.jpg">
+<img width="200" src="http://www.aardwolf.com/tmp/aardwolf-mud-2.jpg" />
+</a> <br/>
+An example of an interface divided into containers
+</div>
+
+<p>
+  The example above isn't RailsGame, but it illustrates the point
+  nicely.  There are five separate sub-windows in the interface above.
+  One is a "game output" window (left), another is for player chat
+  (top), two are maps (lower right) and one is the player's condition
+  (center).  This would correspond to five containers, in RailsGame
+  parlance.
+</p>
+
+<h2> Static vs Dynamic Containers </h2>
+
+<p>
+  Where possible, it's better to use static containers.  A static
+  container is part of the HTML that Rails serves up to the client.
+  To display into it, RailsGame sends simple JavaScript calls to
+  change the contents, whether that's adding output to a div area
+  (rectangular region of a page), or updating a map.
+</p>
+
+<p>
+  Alternately, RailsGame can create a dynamic container.  It isn't
+  part of the HTML that Rails sends to the client.  Instead, your game
+  server will send JavaScript code to create it after the browser has
+  already connected.  That's important if you want to have player
+  preferences about what parts are visible (see the diagram above --
+  what if the player didn't want the chat window displayed, for
+  instance?), or if the container might vary significantly from player
+  to player, or only exist sometimes (a pop-up form to fill out, say).
+</p>
+
+<p>
+  A dynamic container must have its JavaScript sent from your game
+  server rather than the Rails server, and the request can't be
+  cached.  Where possible, use static containers instead.  But in some
+  cases, only a dynamic container will allow the effect you want.
+</p>
+
+<p>
+  Note that for simple effects, you can often use a static container
+  and HTML or CSS even when it sounds like an obvious case for a
+  dynamic container.  For instance, a pop-up that will always look the
+  same could be loaded invisible (with style "display:none") and only
+  made visible when you use it, for instance.  Differences in location
+  and presence of frames or divs in your page could be set by
+  different locations, sizes and display settings in a dynamic CSS
+  stylesheet with the same HTML.  Consider whether you need a dynamic
+  container, or just a static container with a few flourishes that
+  Rails can already provide.
+</p>
+
+</body>
