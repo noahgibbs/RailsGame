@@ -180,7 +180,7 @@ data it needs to do its job.
 
 When you've set things like your game's name and URL in
 private_variables.sh, type "run_server.sh" to start up your new
-RailsGame!  It's (theoretically, eventually) just that easy!
+RailsGame!
 
 
 END
