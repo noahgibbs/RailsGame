@@ -109,4 +109,46 @@
   server, or could have been sent earlier by the game server.
 </p>
 
+<h2> Sequences of Interactions </h2>
+
+<h3> Login </h3>
+
+<ul>
+  <li>Browser connects to site</li>
+  <li>Browser logs in to site (optional?)</li>
+  <li>Browser goes to RG-enabled page</li>
+  <li>Browser sends Juggernaut connection request</li>
+  <li>Juggernaut receives request, sends login query to site</li>
+  <li>Site sends query approval back to Juggernaut, and simultaneously,</li>
+  <li>Site broadcasts login event to game server</li>
+  <li>Juggernaut sends "you're connected" message to browser</li>
+  <li>Game server sends initial login messages to browser (optional)</li>
+</ul>
+
+<h3> Browser-Initiated Logout </h3>
+
+<ul>
+  <li>Browser disconnects</li>
+  <li>Juggernaut sees disconnection, sends logout message to site</li>
+  <li>Site sends logout message to game server</li>
+</ul>
+
+<h3> Browser Sends Action </h3>
+
+<ul>
+  <li>Browser receives input from user</li>
+  <li>Browser sends "action" message to Juggernaut</li>
+  <li>Juggernaut relays action message to game server</li>
+  <li>Game server receives action message, sends back response, if any</li>
+  <li>Browser receives response, executes JavaScript</li>
+</ul>
+
+<h3> Game Server Action </h3>
+
+<ul>
+  <li>Game server sends message to Juggernaut</li>
+  <li>Juggernaut relays message to browser</li>
+  <li>Browser receives message, executes JavaScript</li>
+</ul>
+
 </body>
