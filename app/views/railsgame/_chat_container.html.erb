@@ -1,0 +1,17 @@
+<%
+  submit_text ||= nil
+  submit_url ||= {
+    :action => :send_chat_data,
+    :container => id }
+%>
+
+<div id="<%= id -%>">
+  <p id="<%= id -%>_debug" class="debug"> </p>
+  <ul id="<%= id -%>_list" class="chat_area" style="list-style:none">
+  </ul>
+</div>
+<%= form_remote_tag(:url => submit_url,
+                    :complete => "$('#{id}_input').value = ''" ) %>
+  <%= text_field_tag( "#{id}_input", '', { :size => (@size || 20)} ) %>
+  <%= submit_tag (submit_text || "Chat") %>
+</form>

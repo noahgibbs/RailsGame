@@ -1,0 +1,31 @@
+TROUBLESHOOTING
+
+* When I try to log in, I get a weird database error about not finding a table!
+
+A: Have you run "rake db:migrate", like it says in the INSTALL file?
+
+
+* When I try to log in, I get a weird error about an MX record!
+
+A: Have you made sure that the admin email address in private_variables.sh
+is valid and spelled correctly?
+
+
+* When I do "run_server.sh", it starts, then the game server immediately
+disconnects!
+
+A: Type "./rails/server".  Are you getting an error message?  If so, you'll
+need to fix it.  If you didn't change anything, you could try Googling the
+error.  Maybe something has the wrong version?
+
+* When I run scripts or rake tasks, I get some weird error about
+'ensure_secret_secure'.  What's up with that?
+
+You'll need to source the crypto_keys.sh file, and maybe also
+private_variables.sh.  When you do 'run_server.sh' it does this for you.
+To source the file, go to the Rails directory and type ". crypto_keys.sh"
+and ". private_variables.sh".
+
+If you don't have a "crypto_keys.sh" file, type "./script/generate
+rg_crypto_keys" to generate one.  Normally "./run_script.sh" should
+do this for you the first time you run it.

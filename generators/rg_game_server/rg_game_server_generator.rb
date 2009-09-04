@@ -7,7 +7,18 @@ class RgGameServerGenerator < Rails::Generator::Base
       m.file 'rails_control.rb', 'rails_control.rb'
       m.file 'juggernaut_control.rb', 'juggernaut_control.rb'
       m.file 'juggernaut.yml', 'juggernaut.yml'
-      m.directory 'config'
+
+      m.directory "app/middleware"
+      m.file "juggernaut_session_cookie_middleware.rb",
+        "app/middleware/juggernaut_session_cookie_middleware.rb"
+
+      m.directory "app/views/layouts"
+      m.file "sessions.html.erb", "app/views/layouts/sessions.html.erb"
+
+      m.directory "public"
+      m.directory "public/javascripts"
+      m.file "public/railsgame.js", "public/javascripts/railsgame.js"
+
       m.directory 'game'
       m.file 'server.rb', "game/server.rb"
       m.file 'player.rb', "game/player.rb"
@@ -15,6 +26,7 @@ class RgGameServerGenerator < Rails::Generator::Base
       m.file 'actions.rb', "game/actions.rb"
       m.file 'gameREADME', "game/README"
       m.file 'DEBUGGING', "DEBUGGING"
+      m.file 'TROUBLESHOOTING', "TROUBLESHOOTING"
       m.readme 'README'
     end
   end

@@ -30,9 +30,11 @@ def append_to_env(ins_text, options = {})
   sub_in_file("config/environment.rb", /^end$/, "#{ins_text}end")
 end
 
-use_rest_auth = yes?("Use accounts with RESTful_Authentication [yes/no] ?")
+#use_rest_auth = yes?("Use accounts with RESTful_Authentication [yes/no] ?")
+use_rest_auth = true
 use_activate = yes?("Require email activation of accounts [yes/no] ?")
 #use_openid = yes?("Allow OpenID login? [yes/no]") if use_rest_auth
+use_openid = false
 
 plugin 'juggernaut_plugin', :git => 'git://github.com/maccman/juggernaut_plugin.git'
 plugin 'restful-authentication', :git => 'git://github.com/technoweenie/restful-authentication.git' if use_rest_auth
@@ -58,7 +60,6 @@ act_opts = ["--include-activation"] if use_activate
 generate(:authenticated, 'User', 'Session', *act_opts)
 
 generate(:rg_scaffold, 'game')
-generate(:rg_auth_users)
 generate(:rg_game_server)
 
 if use_rest_auth
