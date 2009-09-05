@@ -160,6 +160,7 @@ if yes?("Set up an initial Git repository [yes/no] ?")
 #*#
 log/*.log
 log/*.pid
+script/server.pid
 log/*.output
 db/*.db
 db/*.sqlite3
