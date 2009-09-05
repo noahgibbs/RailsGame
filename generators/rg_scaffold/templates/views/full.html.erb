@@ -1,8 +1,10 @@
 <%= javascript_include_tag 'prototype', :juggernaut %>
-<%= juggernaut :debug => false, :client_id => @current_user.login,
+<%= juggernaut :client_id => @current_user.login,
     :session_id => @jcookie,
+    :debug => false,  # Uncomment for Juggernaut info in console or alerts
     :channels => [ :chat, :game ] %>
 <%= stylesheet_link_tag 'game' %>
+<%= javascript_include_tag 'railsgame' %>
 
 <p>
   Logged in as <%= @current_user.login %>.
@@ -20,25 +22,15 @@
   <%= submit_tag "Do It" %>
 </form>
 
-<div id="chat_area">
-  <p id="chat_debug"> </p>
-  <ul id="chat_data" style="list-style:none">
-  </ul>
-</div>
-
-<%= form_remote_tag(:url => { :action => :send_chat_data },
-                      :complete => "$('chat_input').value = ''" ) %>
-  <%= text_field_tag( 'chat_input', '', { :size => 20,
-                                          :id => 'chat_input'} ) %>
-  <%= submit_tag "Chat" %>
-</form>
+<%= render :partial => "railsgame/chat_container",
+           :locals => { :id => 'chat', :submit_url => { :action => :send_chat_data } } %>
 
 <script type="text/javascript">
 //<![CDATA[
 function add_chat(client, str) {
-  $('chat_debug').innerHTML = "Length: " + $('chat_data').childNodes.length
+  $('chat_debug').innerHTML = "Length: " + $('chat_list').childNodes.length
 
-  Element.insert("chat_data", { top: "<li> &lt;" + client + "&gt;: " +
+  Element.insert("chat_list", { top: "<li> &lt;" + client + "&gt;: " +
                  str + "</li>" });
 }
 

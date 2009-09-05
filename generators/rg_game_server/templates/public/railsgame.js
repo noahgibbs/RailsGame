@@ -60,29 +60,32 @@ RG.fn.send_action = function(aname, obj) {
     RG.fn.send_to_client(body, 'gameserver');
 };
 
-RG.fn.replace_container_contents = function(container, contents) {
-    $(container + "_data").innerHTML = contents;
+RG.fn.replace_container_contents = function(id, contents) {
+    $(id).innerHTML = contents;
 };
 
-RG.fn.append_to_container = function(container, contents) {
-    $(container + "_data").innerHTML += contents;
+RG.fn.append_to_container = function(id, contents) {
+  Element.insert(id, { bottom: contents });
 };
 
-RG.fn.prepend_to_container = function(container, contents) {
-    obj = $(container + "_data");
-    obj.innerHTML = contents + obj.innerHTML;
+RG.fn.prepend_to_container = function(id, contents) {
+  Element.insert(id, { top: contents });
 };
 
-RG.fn.append_to_console = function(container, line) {
-    obj = $(container + "_data");
-    if(obj.max_lines) {
-	if(!obj.current_lines) {
-	    obj.current_lines = 0;
+RG.max_lines = {};
+RG.current_lines = {};
+
+RG.fn.append_to_console = function(id, line) {
+    obj = $(id);
+    if(RG.max_lines[id]) {
+	if(!RG.current_lines[id]) {
+	    RG.current_lines[id] = 0;
 	}
-	obj.current_lines++;
+	RG.current_lines[id]++;
 
-	if(obj.current_lines > obj.max_lines) {
+	if(RG.current_lines[id] > RG.max_lines[id]) {
 	    obj.removeChild(obj.childnodes[0]);
+	    RG.current_lines[id]--;
 	}
     }
 

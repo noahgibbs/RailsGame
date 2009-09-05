@@ -1,7 +1,12 @@
 class RailsgameController < ApplicationController
   include AuthenticatedSystem
 
+  include ActionView::Helpers::JavaScriptHelper # for escape_javascript
+  include ERB::Util # for html_escape, aka h()
+
   jug_methods = [:jug_login, :jug_logout, :jug_con_logout, :jug_broadcast]
+
+  before_filter :login_required, :except => jug_methods
   protect_from_forgery :except => jug_methods
 
   # Juggernaut subscription URL
@@ -54,6 +59,22 @@ class RailsgameController < ApplicationController
     end
 
     render :nothing => true, :status => 501
+  end
+
+  def chat_to_channel
+    channel = params[:channel]
+    container_id = params[:container_id]
+    update_fn = params[:update_fn]
+
+    command = "#{update_fn}(\"#{container_id}\", \"<li>" +
+      "&lt;#{current_user.login}&gt;: " +
+        "#{escape_javascript h params[:chat_input]}</li>\")"
+    js = "try { #{command} } catch(e) { alert('error sending to channel') }"
+
+    logger.info "Sending to juggernaut channel #{channel}, str: #{js}"
+
+    Juggernaut.send_to_channels(js, [channel]);
+    render :nothing => true
   end
 
 end

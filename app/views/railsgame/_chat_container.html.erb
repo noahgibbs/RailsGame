@@ -1,8 +1,15 @@
 <%
   submit_text ||= nil
   submit_url ||= {
-    :action => :send_chat_data,
-    :container => id }
+    :controller => :railsgame,
+    :action => :chat_to_channel,
+    :channel => :chat,
+    :container_id => id + "_list",
+    :outside_tag => "li",
+    :update_fn => "RG.fn.append_to_container"
+ }
+ text_input_size ||= 20
+ max_lines ||= 10
 %>
 
 <div id="<%= id -%>">
@@ -12,6 +19,10 @@
 </div>
 <%= form_remote_tag(:url => submit_url,
                     :complete => "$('#{id}_input').value = ''" ) %>
-  <%= text_field_tag( "#{id}_input", '', { :size => (@size || 20)} ) %>
+  <%= text_field_tag( "#{id}_input", '', { :size => text_input_size } ) %>
   <%= submit_tag (submit_text || "Chat") %>
 </form>
+
+<% javascript_tag do -%>
+  RG.max_lines = <%= max_lines -%>;
+<% end -%>
