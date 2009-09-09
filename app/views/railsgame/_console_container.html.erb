@@ -1,0 +1,29 @@
+<%
+  submit_text ||= "Go"
+  data_container_id ||= id + "_data"
+  url_options ||= {}
+  submit_url ||= {
+    :controller => :railsgame,
+    :action => :send_to_gameserver,
+    :action_name => :parse,
+    :container_id => data_container_id,
+    :id => id,
+  }.merge(url_options)
+  text_input_size ||= 30
+  max_lines ||= 10
+%>
+
+<div id="<%= id -%>">
+  <p id="<%= id -%>_debug" class="debug"> </p>
+  <ul id="<%= data_container_id -%>" class="container_data" style="list-style:none">
+  </ul>
+</div>
+<%= form_remote_tag(:url => submit_url,
+                    :complete => "$('#{id}_input').value = ''" ) %>
+  <%= text_field_tag( "#{id}_input", '', { :size => text_input_size } ) %>
+  <%= submit_tag submit_text %>
+</form>
+
+<% javascript_tag do -%>
+  RG.max_lines["<%= id -%>"] = <%= max_lines -%>;
+<% end -%>

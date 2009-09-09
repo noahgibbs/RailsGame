@@ -71,9 +71,20 @@ class RailsgameController < ApplicationController
         "#{escape_javascript h params[:chat_input]}</li>\")"
     js = "try { #{command} } catch(e) { alert('error sending to channel') }"
 
-    logger.info "Sending to juggernaut channel #{channel}, str: #{js}"
-
     Juggernaut.send_to_channels(js, [channel]);
+    render :nothing => true
+  end
+
+  def send_to_gameserver
+    container_id = params[:container_id]
+    action_name = params[:action_name]
+    id = params[:id]
+    form_data = params[id + "_input"]
+
+    hash = { :client => current_user.login, :type => :action,
+             :verb => action_name, :objects => form_data }
+    Juggernaut.send_to_channels(hash.to_json, "action")
+
     render :nothing => true
   end
 

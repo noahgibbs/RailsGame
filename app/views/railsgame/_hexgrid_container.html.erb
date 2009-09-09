@@ -1,0 +1,38 @@
+<%
+  data_container_id ||= id + "_data"
+  url_options ||= {}
+  width ||= 3
+  height ||= 3
+  tile_width ||= 75
+  tile_height ||= 75
+  submit_url ||= {
+    :controller => :railsgame,
+    :action => :hexgrid_container_select,
+    :container_id => data_container_id,
+    :id => id,
+  }.merge(url_options)
+%>
+
+<div id="<%= id -%>">
+  <p id="<%= id -%>_debug" class="debug"> </p>
+  <div id="<%= data_container_id -%>" class="container_data" style="position:relative">
+    <% img_url = "#{ENV['RG_SITE_URL']}/images/grass50.png"
+    total_height = tile_height * height
+    (1..height).each do |square_y|
+      (1..width).each do |square_x|
+        x = tile_width * (square_x - 1)
+        y = tile_height * (square_y - 1)
+        alt = "(Location: #{square_x}, #{square_y})"
+        style = "position:absolute; left:#{x}px; top:#{y}px;"
+          %>
+        <img alt="<%= alt -%>" src="<%= img_url -%>" style="<%= style -%>"
+             width=<%= tile_width -%>px height=<%= tile_height -%>px />
+      <% end %>
+      <br />
+    <% end %>
+  </div>
+
+  <!-- This spacer div makes room for the absolutely positioned hexgrid -->
+  <div id="<%= id -%>_spacer" style="height: <%= total_height -%>px">
+  </div>
+</div>

@@ -10,7 +10,7 @@
   Logged in as <%= @current_user.login %>.
 </p>
 
-<div id="world_area">
+<div id="world">
   <p id="world_debug"> </p>
   <p id="world_data"></p>
 </div>
@@ -22,28 +22,23 @@
   <%= submit_tag "Do It" %>
 </form>
 
+<!--
+<%= render :partial => "railsgame/console_container",
+           :locals => { :id => 'world',
+                        :url_options => { :action => :send_to_gameserver } } %>
+-->
+
 <%= render :partial => "railsgame/chat_container",
-           :locals => { :id => 'chat', :submit_url => { :action => :send_chat_data } } %>
+           :locals => { :id => 'chat' } %>
 
 <script type="text/javascript">
 //<![CDATA[
-function add_chat(client, str) {
-  $('chat_debug').innerHTML = "Length: " + $('chat_list').childNodes.length
-
-  Element.insert("chat_list", { top: "<li> &lt;" + client + "&gt;: " +
-                 str + "</li>" });
-}
-
 function add_world_output(str) {
   Element.insert("world_data", { bottom: str });
 }
 
 function replace_world_output(str) {
   $('world_data').innerHTML = str
-}
-
-function world_eval(str) {
-
 }
 //]]>
 </script>

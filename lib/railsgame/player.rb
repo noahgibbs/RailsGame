@@ -30,7 +30,7 @@ module RailsGame::PlayerFunctions
     @@playerclass.login(name, options)
     player = RailsGame::PlayerFunctions.by_name(name)
 
-    player or raise "Player doesn't exist after login!  Call super!"
+    player or raise "Player doesn't exist after login!  Call super() in server_login!"
   end
 
   def self.login(name, options)
@@ -48,7 +48,7 @@ module RailsGame::PlayerFunctions
 
     @@playerclass.logout(name, options)
 
-    raise "Player still tracked!  Call super!" if @@players[name]
+    raise "Player still tracked!  Call super() in server_logout!" if @@players[name]
   end
 
   def self.logout(name, options)
