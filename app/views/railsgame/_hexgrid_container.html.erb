@@ -2,8 +2,8 @@
   data_container_id ||= id + "_data"
   url_options ||= {}
   grid_size ||= [ 3, 3 ]
-  tile_size ||= [ 75, 75 ] # width, height
-  scaled_size ||= nil
+  tile_spacing ||= [ 75, 75 ] # width, height
+  tile_size ||= nil
   submit_url ||= {
     :controller => :railsgame,
     :action => :hexgrid_container_select,
@@ -17,28 +17,27 @@
     raise "Can't get size from object #{obj.inspect}!"
   end
 
-  scaled_size ||= tile_size
   grid_width, grid_height = size_from(grid_size)
+  spacing_width, spacing_height = size_from(tile_spacing)
   tile_width, tile_height = size_from(tile_size)
-  scaled_width, scaled_height = size_from(scaled_size)
 %>
 
 <div id="<%= id -%>">
   <p id="<%= id -%>_debug" class="debug"> </p>
   <div id="<%= data_container_id -%>" class="container_data" style="position:relative">
     <% img_url = "http://noahgibbs.github.com/Astrino/images/hexmeadow.png"
-    total_height = tile_height * grid_height
+    total_height = spacing_height * grid_height
     even_offset = 0
-    odd_offset = tile_width / 2
+    odd_offset = spacing_width / 2
     (1..grid_height).each do |hex_y|
       (1..grid_width).each do |hex_x|
-        x = tile_width * (hex_x-1)
+        x = spacing_width * (hex_x-1)
         x += ((hex_y % 2 == 0) ? even_offset : odd_offset)
-        y = tile_height * (hex_y - 1)
+        y = spacing_height * (hex_y - 1)
         alt = "(Location: #{hex_x}, #{hex_y})"
         style = "position:absolute; left:#{x}px; top:#{y}px;" -%>
         <img alt="<%= alt -%>" src="<%= img_url -%>" style="<%= style -%>"
-             width=<%= scaled_width -%>px height=<%= scaled_height -%>px />
+             width=<%= tile_width -%>px height=<%= tile_height -%>px />
       <% end -%>
       <br />
     <% end -%>
