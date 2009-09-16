@@ -8,10 +8,10 @@
   min-height: 200px;
 }
 
-#chat_debug {
+.debug {
   color: red;
 }
 
-#world_debug {
-  color: red;
+#hexgrid_data img:link {
+  border-width: 0px;
 }

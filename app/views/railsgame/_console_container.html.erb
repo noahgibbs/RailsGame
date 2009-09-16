@@ -13,17 +13,26 @@
   max_lines ||= 10
 %>
 
-<div id="<%= id -%>">
-  <p id="<%= id -%>_debug" class="debug"> </p>
-  <ul id="<%= data_container_id -%>" class="container_data" style="list-style:none">
-  </ul>
-</div>
-<%= form_remote_tag(:url => submit_url,
-                    :complete => "$('#{id}_input').value = ''" ) %>
-  <%= text_field_tag( "#{id}_input", '', { :size => text_input_size } ) %>
-  <%= submit_tag submit_text %>
-</form>
+<div id="<%= id -%>_area">
+  <div id="<%= id -%>">
+    <p id="<%= id -%>_debug" class="debug"> </p>
+    <ul id="<%= data_container_id -%>" class="container_data" style="list-style:none">
+    </ul>
+  </div>
+  <%= form_remote_tag(:url => submit_url,
+                      :complete => "$('#{id}_input').value = ''" ) %>
+    <%= text_field_tag( "#{id}_input", '', { :size => text_input_size } ) %>
+    <%= submit_tag submit_text %>
+  </form>
+</div> <!-- <%= id -%>_area -->
 
 <% javascript_tag do -%>
-  RG.max_lines["<%= id -%>"] = <%= max_lines -%>;
+hash = {type: "console"};
+hash["width"] = <%= grid_width -%>;
+hash["height"] = <%= grid_height -%>;
+hash["max_lines"] = <%= max_lines -%>;
+RG.fn.register_container(\"<%= data_container_id -%>\", hash);
+
+/* Deprecate? */
+RG.max_lines["<%= id -%>"] = <%= max_lines -%>;
 <% end -%>

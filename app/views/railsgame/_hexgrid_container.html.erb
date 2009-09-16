@@ -4,7 +4,7 @@
   grid_size ||= [ 3, 3 ]
   tile_spacing ||= [ 75, 75 ] # width, height
   tile_size ||= nil
-  submit_url ||= {
+  click_url ||= {
     :controller => :railsgame,
     :action => :hexgrid_container_select,
     :container_id => data_container_id,
@@ -26,24 +26,36 @@
   <p id="<%= id -%>_debug" class="debug"> </p>
   <div id="<%= data_container_id -%>" class="container_data" style="position:relative">
     <% img_url = "http://noahgibbs.github.com/Astrino/images/hexmeadow.png"
-    total_height = spacing_height * grid_height
+    total_height = spacing_height * (grid_height + 1)
+    total_width = spacing_width * (grid_width + 1) * 2
     even_offset = 0
-    odd_offset = spacing_width / 2
+    odd_offset = spacing_height / 2
     (1..grid_height).each do |hex_y|
       (1..grid_width).each do |hex_x|
-        x = spacing_width * (hex_x-1)
-        x += ((hex_y % 2 == 0) ? even_offset : odd_offset)
+        x = spacing_width * (hex_x - 1)
         y = spacing_height * (hex_y - 1)
+        y += ((hex_x % 2 == 0) ? even_offset : odd_offset)
+        click_url[:x] = hex_x
+        click_url[:y] = hex_y
         alt = "(Location: #{hex_x}, #{hex_y})"
         style = "position:absolute; left:#{x}px; top:#{y}px;" -%>
-        <img alt="<%= alt -%>" src="<%= img_url -%>" style="<%= style -%>"
-             width=<%= tile_width -%>px height=<%= tile_height -%>px />
+        <%= link_to_remote("<img alt=\"#{alt}\" src=\"#{img_url}\" " +
+             "id=\"#{id}_img_#{hex_x}_#{hex_y}\"" +
+             "style=\"#{style}\" width=#{tile_width}px " +
+             "height=#{tile_height}px />", :url => click_url) %>
       <% end -%>
-      <br />
     <% end -%>
   </div>
 
   <!-- This spacer div makes room for the absolutely positioned hexgrid -->
-  <div id="<%= id -%>_spacer" style="height: <%= total_height -%>px">
+  <div id="<%= id -%>_spacer" style="height: <%= total_height -%>px; width: <%= total_width -%>px;">
   </div>
 </div>
+
+<% javascript_tag do -%>
+hash = {type: "hexgrid"};
+hash["width"] = <%= grid_width -%>;
+hash["height"] = <%= grid_height -%>;
+
+RG.fn.register_container(\"<%= data_container_id -%>\", hash);
+<% end -%>

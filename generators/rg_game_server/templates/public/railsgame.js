@@ -60,6 +60,11 @@ RG.fn.send_action = function(aname, obj) {
     RG.fn.send_to_client(body, 'gameserver');
 };
 
+RG.fn.register_container(name, hash) {
+  if(!RG.containers) RG.containers = {};
+  if(!RG.containers[name]) RG.container[name] = hash;
+}
+
 RG.fn.replace_container_contents = function(id, contents) {
     $(id).innerHTML = contents;
 };
@@ -92,4 +97,24 @@ RG.fn.append_to_console = function(id, line) {
     l = createElement("li");
     l.innerHTML = line;
     obj.appendChild(l);
-}
+};
+
+RG.fn.set_hexgrid_tile = function(container, name, url) {
+    if(!RG.hextiles) RG.hextiles = {};
+    if(!RG.hextiles[container]) RG.hextiles[container] = {};
+    RG.hextiles[container][name] = url;
+};
+
+RG.fn.set_hexgrid_values = function(container, min_x, max_x, min_y, max_y,
+                                    data) {
+    if(!RG.hextiles) RG.hextiles = {};
+    if(!RG.hextiles[container]) RG.hextiles[container] = {};
+
+    ctr = 0;
+    for(y_ctr = min_y; y_ctr <= max_y; y_ctr++) {
+	for(x_ctr = min_x; x_ctr <= max_x; x_ctr++, ctr++) {
+	    tile_url = RG.hextiles[container][data[ctr]];
+	    $(container + "_img_" + x_ctr + "_" + y_ctr) = tile_url;
+	}
+    }
+};

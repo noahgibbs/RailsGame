@@ -88,4 +88,32 @@ class RailsgameController < ApplicationController
     render :nothing => true
   end
 
+  def init_hexgrid_container
+    data_container_id = params[:container_id]
+    width = params[:width]
+    height = params[:height]
+
+    hash = { :client => current_user.login, :type => :action,
+             :verb => "init_hexgrid_container",
+	     :objects => {:width => width, :height => height,
+	                  :container => data_container_id } }
+    Juggernaut.send_to_client(hash.to_json, "gameserver")
+
+    render :nothing => true
+  end
+
+  def hexgrid_container_select
+    data_container_id = params[:container_id]
+    x = params[:x]
+    y = params[:y]
+    action_name = params[:action_name] || "hex_selected"
+    hash = { :client => current_user.login, :type => :action,
+             :verb => action_name,
+	     :objects => {:x => x, :y => y,
+	                  :container => data_container_id } }
+    Juggernaut.send_to_client(hash.to_json, "gameserver")
+
+    render :nothing => true
+  end
+
 end
