@@ -99,10 +99,10 @@ RG.fn.append_to_console = function(id, line) {
     obj.appendChild(l);
 };
 
-RG.fn.set_hexgrid_tile = function(container, name, url) {
+RG.fn.set_hexgrid_tile = function(container, name, data) {
     if(!RG.hextiles) RG.hextiles = {};
     if(!RG.hextiles[container]) RG.hextiles[container] = {};
-    RG.hextiles[container][name] = url;
+    RG.hextiles[container][name] = data;
 };
 
 RG.fn.set_hexgrid_values = function(container, min_x, max_x, min_y, max_y,
