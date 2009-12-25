@@ -1,5 +1,3 @@
-* Add send-action API (and other Juggernaut abstraction APIs?) both on client
-  and server
 * Add spinner for Juggernaut connection that gets properly updated (static?
   container?)
 * Exception notification for rails and game server
@@ -11,6 +9,11 @@
 --- Engines ---
 
 * Move Juggernaut operations into plugin controller
+
+* Create partial for initial juggernaut setup stuff
+  * Create library function to set up vars for juggernaut setup
+
+* Move javascript into views/partials so we can use engines?
 
 --- Account Improvements ---
 * Add 'lost password' link
