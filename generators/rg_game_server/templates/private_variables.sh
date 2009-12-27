@@ -32,7 +32,7 @@ export RG_ADMIN_EMAIL=joesmith@myisp.com
 # but if you don't change them then things will still work fine.
 
 # Choose 'development' or 'release'
-export RG_RAILS_ENVIRONMENT=development
+export RAILS_ENV=development
 
 ############# EXPERT SETTINGS ##########################################
 # Please know a fair bit about the architecture of the server, how it works,
