@@ -10,6 +10,7 @@ app/views/railsgame/_chat_container.html.erb
 app/views/railsgame/_console_container.html.erb
 app/views/railsgame/_grid_container.html.erb
 app/views/railsgame/_hexgrid_container.html.erb
+app/views/railsgame/_init.html.erb
 generators/rg_crypto_keys/USAGE
 generators/rg_crypto_keys/rg_crypto_keys_generator.rb
 generators/rg_crypto_keys/templates/crypto_keys.sh

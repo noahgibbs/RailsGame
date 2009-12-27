@@ -167,6 +167,7 @@ db/*.sqlite3
 tmp/**/*
 pkg/*
 config/database.yml
+config/initializers/hoptoad.rb
 crypto_keys.sh
 private_variables.sh
 END

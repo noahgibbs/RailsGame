@@ -15,10 +15,6 @@ class RgGameServerGenerator < Rails::Generator::Base
       m.directory "app/views/layouts"
       m.file "sessions.html.erb", "app/views/layouts/sessions.html.erb"
 
-      m.directory "public"
-      m.directory "public/javascripts"
-      m.file "public/railsgame.js", "public/javascripts/railsgame.js"
-
       m.directory 'game'
       m.file 'server.rb', "game/server.rb"
       m.file 'player.rb', "game/player.rb"

@@ -1,10 +1,6 @@
-<%= javascript_include_tag 'prototype', :juggernaut %>
-<%= juggernaut :client_id => @current_user.login,
-    :session_id => @jcookie,
-    :debug => false,  # Uncomment for Juggernaut info in console or alerts
-    :channels => [ :chat, :game ] %>
 <%= stylesheet_link_tag 'game' %>
-<%= javascript_include_tag 'railsgame' %>
+
+<%= render :partial => "railsgame/init" %>
 
 <div id="world">
   <p id="world_debug"> </p>
