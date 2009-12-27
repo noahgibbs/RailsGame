@@ -99,7 +99,7 @@ class RailsGame::JuggernautConnect
   def hosts
     check_config
     @config[:hosts].select {|h|
-      !h[:environment] or h[:environment].to_s == ENV['RG_RAILS_ENVIRONMENT']
+      !h[:environment] or h[:environment].to_s == ENV['RAILS_ENV']
     }
   end
 

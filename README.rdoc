@@ -1,6 +1,6 @@
 = railsgame
 
-* http://railsgame.angelbob.com
+* http://noahgibbs.github.com/RailsGame
 
 == DESCRIPTION:
 
@@ -18,7 +18,7 @@ chat easy.  It makes adding a webclient to a MUD very straightforward.
 
 == REQUIREMENTS:
 
-Juggernaut, Rails
+Juggernaut, Rails, the daemons gem
 
 == INSTALL:
 

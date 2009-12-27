@@ -8,7 +8,8 @@ if [ -r private_variables.sh ]
 then
   . private_variables.sh
 else
-  echo You have not created private_variables.sh!  Read INSTALL for details.
+  echo You have not created private_variables.sh!
+  echo See README, or http://noahgibbs.github.com/RailsGame/install.html!
   exit
 fi
 
@@ -28,8 +29,7 @@ ruby rails_control.rb stop
 trap "ruby rails_control.rb stop; ruby juggernaut_control.rb stop; exit" INT TERM EXIT HUP
 
 # Rails server for player UI and the web site
-#./script/server -p $RG_SITE_PORT -e $RG_RAILS_ENVIRONMENT &
-ruby rails_control.rb start -- -p $RG_SITE_PORT -e $RG_RAILS_ENVIRONMENT
+ruby rails_control.rb start -- -p $RG_SITE_PORT -e $RAILS_ENV
 
 # Juggernaut server for pushing chat, text and certain AJAX data
 # $RG_JUGGERNAUT_HOST must be this machine if you don't change this

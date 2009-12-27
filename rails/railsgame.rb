@@ -45,7 +45,7 @@ github_gem "maccman", "juggernaut"
 # Uncomment only one of these lines
 #github_gem "noahgibbs", "railsgame"
 gem "railsgame"
-#gem "noahgibbs-railsgame"  # assume already installed
+#gem "noahgibbs-railsgame"  # assume already installed manually
 
 # Uncomment to install gems
 #rake("gems:install", :sudo => true)
@@ -142,7 +142,7 @@ file "TODO", <<-END
   Uncomment "filter_parameter_logging :password"
 
 * In app/models/user_mailer.rb and app/views/user_mailer/*.rb:
-  Check phrasing of email stuff
+  Check the phrasing of your registration email messages
 
 * Set up your remote source repository (git?) and upload your project.
   Losing all your progress sucks, so don't do that!
@@ -180,7 +180,7 @@ print <<-END
 Now you have a RailsGame ready to work on!  Please see the TODO file
 for a list of stuff you could easily modify, or should fix up.  You'll
 also need to set up private_variables.sh so that RailsGame has the
-data it needs to do its job.
+data it needs.
 
 When you've set things like your game's name and URL in
 private_variables.sh, type "run_server.sh" to start up your new
