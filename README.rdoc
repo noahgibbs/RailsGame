@@ -18,7 +18,16 @@ chat easy.  It makes adding a webclient to a MUD very straightforward.
 
 == REQUIREMENTS:
 
-Juggernaut, Rails, the daemons gem
+Juggernaut (latest version), Rails 2.3, the daemons gem
+
+If you install RailsGame as a gem, it should install these dependencies
+if you haven't already.  Otherwise, you can install them yourself.
+
+To install Rails and daemons:
+sudo gem install rails daemons
+
+To install Juggernaut:
+sudo gem install maccman-juggernaut --source http://gems.github.com
 
 == INSTALL:
 
