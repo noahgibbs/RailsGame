@@ -1,0 +1,4 @@
+source :rubygems
+
+gem "redis"
+gem "multi_json"
