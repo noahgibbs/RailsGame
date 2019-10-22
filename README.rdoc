@@ -1,4 +1,6 @@
-RailsGame example, building from the ground up
+NOTE: THIS IS AN ANCIENT REPO, KEPT AROUND ONLY FOR HISTORICAL REASONS. NO PART OF THE CODE INSIDE IS PRODUCTION-WORTHY.
+
+# RailsGame example, building from the ground up
 
 You must have Redis and Juggernaut installed.  Redis can be downloaded
 or installed through most package managers.  Juggernaut must be
